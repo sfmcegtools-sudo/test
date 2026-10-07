@@ -158,11 +158,6 @@
         display: flex;
         gap: 32px;
       }
-      #timecode {
-        color: var(--ink);
-        min-width: 110px;
-        text-align: right;
-      }
       .hud-progress {
         position: absolute;
         left: 0;
@@ -905,7 +900,6 @@
           <div class="hud-brand"><div id="hudLogo" role="img" aria-label="The Cutting Edge School"></div></div>
           <div class="hud-right">
             <span>AI trainings · Enterprise</span>
-            <span id="timecode">00:00:00</span>
           </div>
         </div>
         <div class="hud-progress"><div id="progressFill"></div></div>
@@ -949,7 +943,6 @@
       }
 
       const tl = gsap.timeline({ paused: true });
-      const FPS = 30;
       const DUR = 15;
 
       // ---------- background + HUD (full length) ----------
@@ -957,23 +950,6 @@
       tl.fromTo("#glowB", { x: 0, y: 0 }, { x: -420, y: -140, duration: DUR, ease: "sine.inOut" }, 0);
       tl.fromTo("#grid", { y: 0 }, { y: 96, duration: DUR, ease: "none" }, 0);
       tl.fromTo("#progressFill", { scaleX: 0 }, { scaleX: 1, duration: DUR, ease: "none" }, 0);
-      const tc = { t: 0 };
-      const tcEl = document.getElementById("timecode");
-      const pad = (n) => String(n).padStart(2, "0");
-      tl.fromTo(
-        tc,
-        { t: 0 },
-        {
-          t: DUR,
-          duration: DUR,
-          ease: "none",
-          onUpdate: () => {
-            const f = Math.round(tc.t * FPS);
-            tcEl.textContent = `00:${pad(Math.floor(f / FPS))}:${pad(f % FPS)}`;
-          },
-        },
-        0,
-      );
       tl.fromTo("#hudTop", { opacity: 0, y: -16 }, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, 0.15);
       tl.to("#hudTop", { opacity: 0, duration: 0.25, ease: "power1.in" }, 11.55);
 
