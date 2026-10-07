@@ -323,7 +323,8 @@ function applyMap(t, hs, cam) {
     R.gratLines.forEach(({ el, k }) => {
       const s0 = g0 + k * 0.24 * (g1 - g0);
       const p = ease.in(range(t, s0, s0 + (g1 - g0) * 0.7));
-      el.setAttribute('stroke-dasharray', `${n(p, 4)} 1`);
+      el.setAttribute('stroke-dasharray', `${n(p, 4)} 1`); // grows from its midpoint outward
+      el.setAttribute('stroke-dashoffset', n(-(1 - p) / 2, 4));
     });
   }
   const land = smoothstep(range(t, ...T.s4.continents));
@@ -406,7 +407,7 @@ function applyBubble(b, t, tPop, tOut, anchor, hs) {
   const ins = b.inner.style;
   ins.left = px((w - b.w) / 2);
   ins.top = px((h - b.h) / 2);
-  ins.opacity = n(clamp((pop - 0.45) / 0.4), 4);
+  ins.opacity = n(clamp((pop - 0.68) / 0.3), 4); // text arrives once the pill is nearly full width
   b.ptr.style.left = px(tipX - 11);
   b.ptr.style.top = px(tipY - ptrH - 0.5);
   b.ptr.style.opacity = n(clamp((pop - 0.3) / 0.4), 4);

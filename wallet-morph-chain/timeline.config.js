@@ -60,7 +60,7 @@ export default {
 
   // Soft-gray halos: black at low alpha only. { y offset, blur radius, spread, alpha }
   halo: {
-    float: { y: 34, blur: 90, spread: 4, a: 0.16 }, // tiny blurred squircle (t = 0)
+    float: { y: 30, blur: 76, spread: 6, a: 0.24 }, // tiny blurred squircle (t = 0)
     icon: { y: 16, blur: 40, spread: 0, a: 0.13 },
     card: { y: 22, blur: 70, spread: 0, a: 0.2 },
     mapFloat: { y: 70, blur: 150, spread: 10, a: 0.26 },
