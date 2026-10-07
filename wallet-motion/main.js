@@ -161,7 +161,11 @@
 
   const MUMBAI = [72.83, 18.94];
   const DUBAI = [55.27, 25.20];
-  const ROUTE_CTRL = [64.2, 24.3];       // quadratic control: arcs north over the Arabian Sea
+  // Cubic Bézier controls: a single convex arch (no S-bend) bowing ≈ 37 px north of the chord over
+  // the open Arabian Sea, entering Dubai through the Gulf of Oman. Chosen by a search that keeps the
+  // line ≥ 20 px clear of the Kathiawar and Makran coasts (see checks.js).
+  const ROUTE_C1 = [66.5, 22.5];
+  const ROUTE_C2 = [61.5, 24.5];
 
   // Arabia + Iraq/Iran + Pakistan + India as one landmass (bays: Persian Gulf, Gulf of Oman,
   // Gulf of Kutch, Gulf of Khambhat). Off-frame points close the polygon.
@@ -373,8 +377,9 @@
       p.setAttribute('d', catmullRomPath(line.map(project), false));
       borders.appendChild(p);
     }
-    const a = project(MUMBAI), c = project(ROUTE_CTRL), b = project(DUBAI);
-    const routeD = `M${a[0].toFixed(2)},${a[1].toFixed(2)} Q${c[0].toFixed(2)},${c[1].toFixed(2)} ${b[0].toFixed(2)},${b[1].toFixed(2)}`;
+    const a = project(MUMBAI), c1 = project(ROUTE_C1), c2 = project(ROUTE_C2), b = project(DUBAI);
+    const f2 = (p) => `${p[0].toFixed(2)},${p[1].toFixed(2)}`;
+    const routeD = `M${f2(a)} C${f2(c1)} ${f2(c2)} ${f2(b)}`;
     el.route = $('#route');
     el.routeGlow = $('#route-glow');
     el.route.setAttribute('d', routeD);
