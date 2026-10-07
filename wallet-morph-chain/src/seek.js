@@ -110,7 +110,7 @@ export function heroState(t) {
     const amt = tilt * (1 - f);
     s.rx = M.tilt.rotateX * amt;
     s.rot += M.tilt.rotateZ * amt;
-    s.halo = mixHalo(mixHalo(HALO.card, HALO.mapFloat, smoothstep(range(t, 3.9, 4.3))), HALO.mapSettled, clamp(f));
+    s.halo = mixHalo(mixHalo(HALO.card, HALO.mapFloat, smoothstep(range(t, ...T.s4.haloFloat))), HALO.mapSettled, clamp(f));
   } else {
     // S6 — map card → tiny blurred squircle; lands exactly on the t = 0 state at t = 7
     const e = ease.outMorph(range(t, ...T.s6.morph));
@@ -232,7 +232,7 @@ function applyFaceId(t) {
     if (t < T.s3.retract) s = ease.in(range(t, T.s2.strokes + i * T.s2.strokeStagger, T.s2.strokes + i * T.s2.strokeStagger + D.strokeStretch));
     else {
       const r0 = T.s3.retract + (last - i) * T.s3.retractStagger;
-      s = 1 - ease.out(range(t, r0, r0 + D.strokeRetract));
+      s = 1 - ease.in(range(t, r0, r0 + D.strokeRetract)); // snaps back into the dot
     }
     const dash = lerp(0.01, f.L, s);
     f.el.setAttribute('stroke-dasharray', `${n(dash, 3)} ${n(f.L * 2, 3)}`);
@@ -280,7 +280,7 @@ function itemFx(el, t, tin, tout, { rise = 16, blurIn = B.contentIn, dur = D.tex
 }
 
 function applyWallet(t, hs) {
-  const visible = t >= T.s3.creditCard && t < T.s4.contentOut + 0.5;
+  const visible = t >= T.s3.creditCard && t < T.s4.contentOut + 0.3;
   if (!show(R.wallet, visible ? 1 : 0)) return;
   const st = R.wallet.style;
   st.left = px(hs.cx - hs.w / 2);
@@ -290,20 +290,20 @@ function applyWallet(t, hs) {
   st.borderRadius = px(hs.r);
   st.transform = `rotate(${n(hs.rot, 4)}deg)`;
   st.filter = blurCSS(hs.blur);
-  const o = T.s4.contentOut, g = T.s4.contentStagger;
-  itemFx(R.wTitle, t, T.s3.title, o);
-  itemFx(R.wPlus, t, T.s3.plus, o);
-  itemFx(R.wBag, t, T.s3.bag, o + g);
-  itemFx(R.wBalLabel, t, T.s3.balanceLabel, o + g);
+  const o = T.s4.contentOut, g = T.s4.contentStagger, od = T.s4.contentDur;
+  itemFx(R.wTitle, t, T.s3.title, o, { outDur: od });
+  itemFx(R.wPlus, t, T.s3.plus, o, { outDur: od });
+  itemFx(R.wBag, t, T.s3.bag, o + g, { outDur: od });
+  itemFx(R.wBalLabel, t, T.s3.balanceLabel, o + g, { outDur: od });
   R.wDigits.forEach((el, i) => {
     const t0 = T.s3.digits + i * T.s3.digitStagger;
-    itemFx(el, t, t0, o + g, { rise: 24, dur: D.digit });
+    itemFx(el, t, t0, o + g, { rise: 24, dur: D.digit, outDur: od });
   });
-  itemFx(R.wProgLabel, t, T.s3.progressLabel, o + 2 * g);
-  itemFx(R.wTrack, t, T.s3.progressTrack, o + 2 * g, { rise: 10 });
+  itemFx(R.wProgLabel, t, T.s3.progressLabel, o + 2 * g, { outDur: od });
+  itemFx(R.wTrack, t, T.s3.progressTrack, o + 2 * g, { rise: 10, outDur: od });
   const pr = lerp(T.s3.progressFrom, T.s3.progressTo, ease.in(range(t, ...T.s3.progress)));
   R.wFill.style.width = `${n(pr * 100, 3)}%`;
-  itemFx(R.wCC, t, T.s3.creditCard, o + 3 * g, { rise: 46, dur: D.entrance, outDur: D.exit });
+  itemFx(R.wCC, t, T.s3.creditCard, o + 3 * g, { rise: 46, dur: D.entrance, outDur: od + 0.02 });
 }
 
 /* ── S4–S6: map content (card plane) ───────────────────────────────── */

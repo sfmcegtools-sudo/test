@@ -32,7 +32,7 @@ export default {
   easing: {
     entrance: [0.22, 1, 0.36, 1],
     routeCamera: [0.65, 0, 0.35, 1],
-    exit: [0.55, 0, 1, 0.45], // accelerate away (content exits)
+    exit: [0.4, 0, 0.7, 0.55], // content exits: gentle accelerate, drops opacity early
     exitMorph: [0.45, 0, 0.2, 1], // S6 hero morph: quick, lands at rest exactly on t = 7
   },
 
@@ -189,12 +189,12 @@ export default {
     },
     s3: {
       retract: 2.2, // strokes shrink back into dots (reverse stagger)
-      retractStagger: 0.015,
-      converge: [2.26, 2.46], // dots pull in toward the forming card
-      glyphBlur: [2.22, 2.38],
-      glyphFade: [2.3, 2.46],
-      emerge: [2.2, 2.45], // glyph frame → small black card (blur-through)
-      alphaIn: [2.27, 2.45],
+      retractStagger: 0.012,
+      converge: [2.28, 2.46], // dots pull in toward the forming card
+      glyphBlur: [2.26, 2.4],
+      glyphFade: [2.32, 2.46],
+      emerge: [2.22, 2.45], // glyph frame → small black card (blur-through)
+      alphaIn: [2.3, 2.46],
       growth: 2.45, // card-growth spring
       stack: 2.7,
       stackStagger: 0.04,
@@ -213,22 +213,24 @@ export default {
       progressTo: 0.8,
     },
     s4: {
-      contentOut: 3.8,
-      contentStagger: 0.03,
-      stackSink: [3.8, 4.06],
-      morph: [3.84, 4.34],
-      blur: [3.84, 4.0, 4.22],
-      fill: [3.9, 4.1],
+      contentOut: 3.8, // wallet content leaves before the card starts to tilt
+      contentStagger: 0.02,
+      contentDur: 0.13,
+      stackSink: [3.8, 3.98],
+      morph: [3.88, 4.36],
+      blur: [3.86, 4.02, 4.24],
+      fill: [3.92, 4.12],
+      haloFloat: [3.92, 4.32], // card halo widens into the floating map halo
       opacityDip: 0.72,
-      tiltIn: [3.84, 4.3],
-      graticule: [4.04, 4.3],
-      ring: 4.2,
-      india: 4.3,
-      continents: [4.3, 4.62],
-      graticuleOut: [4.34, 4.62],
-      flatten: 4.4, // map flatten spring
-      panel: 4.58,
-      panelContent: 4.68,
+      tiltIn: [3.94, 4.36],
+      graticule: [4.06, 4.32],
+      ring: 4.22,
+      india: 4.32,
+      continents: [4.32, 4.62],
+      graticuleOut: [4.36, 4.62],
+      flatten: 4.42, // map flatten spring
+      panel: 4.6,
+      panelContent: 4.7,
     },
     s5: {
       uae: [5.3, 5.58],
