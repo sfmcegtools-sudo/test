@@ -24,3 +24,18 @@ Other defaults:
 - **Wallet icon neutrals** (light-gray outer, dark-gray inner, cream pocket) are not in the palette list; use restrained neutrals (e.g. #E9E9EB, #2B2B2D, #F4EBD9) and the stack coral #F07566 for the scalloped edge. Keep them in config.
 - **Halo**: soft gray only (rgba of black at low alpha), wide while floating, tighter when settled. No other effects.
 - **Loop**: t=7.0 must render pixel-identical to t=0.0 (seek(t) should evaluate t mod 7 so 7.0 ≡ 0.0, and the S6 end state must equal the S1 start state by construction, not by a cut).
+
+## Polish bar — "make this crazy to look" (animator follow-up)
+
+The animator wants this to look jaw-dropping. Push craft as far as possible **inside** the brief's system (same palette, no new effect types, no bans broken). Reviewers should flag anything that merely "works" but doesn't feel premium, and the fix pass should implement these:
+
+- **Curved motion paths, not straight lines.** Every travelling object moves on a gentle arc (quadratic path between start/end with a perpendicular offset ≈6–10% of travel), so morphs feel thrown and caught rather than slid.
+- **Anticipation + overshoot from the springs.** Before each big growth (icon, Wallet card, map card) add a 60–90ms 2–3% squash in the opposite direction, then let the closed-form spring overshoot and settle. No extra bounce beyond the specified ω/ζ.
+- **Overlapping, secondary action.** Stack cards trail the Wallet card with 40–70ms lag and their own spring; Face ID strokes draw with 30–50ms stagger in a clockwise sweep; bubbles, ring and labels settle after their anchors; the stats panel's three stats, slider and play button stagger in 40ms apart.
+- **Blur is directional in feel.** Peak blur coincides with peak velocity; as an object decelerates its blur resolves 1:1 with the spring — content never sharpens before its container stops moving.
+- **Depth without new colors.** Layered soft-gray shadows (a tight contact shadow + a wide ambient halo) that respond to height: floating = wide/soft/lighter, landed = tight/darker. A faint white top-edge highlight (1px inner stroke, white at ≤20% alpha) on the black cards and the glass panel to catch the light.
+- **Light that travels.** A single soft white sheen sweeps once across the Wallet card as it lands (≤12% alpha, ~400ms), and once across the map card as it flattens. Route head glow (#2F8CFF) leaves a short fading trail along the already-drawn arc.
+- **Micro-life during holds.** No dead frames: during holds, the camera has a ≤0.6% slow drift/scale, the Face ID glow breathes once, the yellow origin ring emits one expanding ring pulse (same #FFC83D, fading out), the Dubai bubble does a tiny 2% settle.
+- **Typography craft.** Balance digits enter one at a time with a small 8–12px rise + per-digit blur resolve (tabular numerals, no width jitter). Title and labels use optical sizing (Inter Display for ≥48px if available locally, else Inter), −0.02em tracking.
+- **Seamless loop feels intentional.** The S6 shrink accelerates hard (exit ≈40% faster), spins to about −12°, and lands on the exact t=0 blurred squircle so the loop reads as one breath.
+- **Pixel quality.** Every stroke has round caps and joins; no aliasing on thin card edges; no sub-pixel shimmer during holds (snap static layers to whole pixels); glows never clip at layer bounds.
