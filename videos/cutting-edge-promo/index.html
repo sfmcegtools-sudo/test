@@ -680,6 +680,7 @@
       data-composition-id="main"
       data-start="0"
       data-duration="15"
+      data-fps="60"
       data-width="1920"
       data-height="1080"
     >
@@ -955,16 +956,18 @@
 
       // ---------- S1: hook (0 – 2.6) ----------
       tl.fromTo("#s1Kicker", { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: 0.6, ease: "expo.out" }, 0.2);
-      tl.fromTo("#s1a .w", { yPercent: 110 }, { yPercent: 0, duration: 0.55, ease: "expo.out", stagger: 0.1 }, 0.28);
+      tl.fromTo(".s1-wrap", { scale: 1 }, { scale: 1.035, duration: 2.6, ease: "none" }, 0);
+      tl.fromTo("#s1a .w", { yPercent: 110, filter: "blur(14px)" }, { yPercent: 0, filter: "blur(0px)", duration: 0.6, ease: "expo.out", stagger: 0.1 }, 0.28);
       tl.fromTo("#s1Rule", { scaleX: 0 }, { scaleX: 1, duration: 1.0, ease: "power4.out" }, 0.45);
-      tl.to("#s1a .w", { yPercent: -110, duration: 0.22, ease: "power3.in", stagger: 0.04 }, 1.3);
-      tl.fromTo("#s1b .w", { yPercent: 110 }, { yPercent: 0, duration: 0.5, ease: "back.out(1.6)", stagger: 0.08 }, 1.45);
+      tl.to("#s1a .w", { yPercent: -110, filter: "blur(10px)", duration: 0.24, ease: "power3.in", stagger: 0.04 }, 1.28);
+      tl.fromTo("#s1b .w", { yPercent: 110, filter: "blur(14px)" }, { yPercent: 0, filter: "blur(0px)", duration: 0.5, ease: "back.out(1.4)", stagger: 0.06 }, 1.52);
       tl.fromTo("#s1b", { scale: 1, transformOrigin: "0% 50%" }, { scale: 1.05, duration: 1.0, ease: "power1.in" }, 1.6);
-      tl.to("#s1b .w", { yPercent: -110, duration: 0.25, ease: "power3.in", stagger: 0.04 }, 2.1);
-      tl.to("#s1Kicker", { opacity: 0, duration: 0.2, ease: "power1.in" }, 2.1);
+      tl.to("#s1b .w", { yPercent: -110, filter: "blur(10px)", duration: 0.26, ease: "power3.in", stagger: 0.04 }, 2.15);
+      tl.to("#s1Kicker", { opacity: 0, duration: 0.2, ease: "power1.in" }, 2.15);
 
       // ---------- S2: prompt -> programs (2.6 – 5.7) ----------
       const promptLift = 139; // centred alone vs. resting above the cards
+      tl.fromTo("#s2Stage", { scale: 1 }, { scale: 1.025, duration: 3.1, ease: "none" }, 2.6);
       tl.fromTo("#prompt", { y: promptLift, opacity: 0 }, { y: promptLift, opacity: 1, duration: 0.18, ease: "power1.out" }, 2.74);
       const chars = gsap.utils.toArray("#ptext .ch");
       chars.forEach((c, i) => tl.fromTo(c, { display: "none" }, { display: "inline", duration: 0.001, ease: "none" }, 2.95 + i * 0.03));
@@ -972,13 +975,16 @@
       tl.fromTo("#send", { scale: 1 }, { scale: 0.84, duration: 0.1, ease: "power2.in" }, 3.95);
       tl.to("#send", { scale: 1, duration: 0.4, ease: "back.out(3)" }, 4.05);
       tl.to("#prompt", { y: 0, duration: 0.5, ease: "power3.inOut" }, 4.1);
-      tl.fromTo(".pcard", { y: 90, opacity: 0, rotationX: -18, transformPerspective: 1000 }, { y: 0, opacity: 1, rotationX: 0, duration: 0.6, ease: "expo.out", stagger: 0.1 }, 4.3);
+      tl.fromTo(".pcard", { y: 90, opacity: 0, rotationX: -18, transformPerspective: 1000, filter: "blur(10px)" }, { y: 0, opacity: 1, rotationX: 0, filter: "blur(0px)", duration: 0.7, ease: "expo.out", stagger: 0.1 }, 4.3);
       tl.fromTo(".pcard-edge", { scaleX: 0 }, { scaleX: 1, duration: 0.7, ease: "power2.out", stagger: 0.1 }, 4.5);
-      tl.to(".pcard", { opacity: 0, y: 40, duration: 0.25, ease: "power2.in", stagger: 0.04 }, 5.3);
+      // content clears first, so the prompt box is an empty shape when the morph takes it
+      tl.to("#prompt .prompt-top, #prompt .prompt-row", { opacity: 0, filter: "blur(6px)", duration: 0.2, ease: "power1.in" }, 5.08);
+      tl.to(".pcard", { opacity: 0, y: 30, filter: "blur(10px)", duration: 0.32, ease: "power2.in", stagger: 0.04 }, 5.1);
 
       // ---------- S3: 5-stage rail (5.7 – 8.8) ----------
+      tl.fromTo("#s3Wrap", { scale: 1 }, { scale: 1.025, duration: 3.1, ease: "none" }, 5.7);
       tl.fromTo("#s3Kicker", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.45, ease: "power3.out" }, 5.75);
-      tl.fromTo("#s3Title .w", { yPercent: 115 }, { yPercent: 0, duration: 0.55, ease: "expo.out", stagger: 0.07 }, 5.78);
+      tl.fromTo("#s3Title .w", { yPercent: 115, filter: "blur(12px)" }, { yPercent: 0, filter: "blur(0px)", duration: 0.65, ease: "expo.out", stagger: 0.07 }, 5.78);
       tl.fromTo(".node", { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "power2.out", stagger: 0.06 }, 5.95);
       tl.fromTo(".chip", { scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, ease: "back.out(2.2)", stagger: 0.08 }, 6.1);
       tl.fromTo("#railFill", { scaleX: 0 }, { scaleX: 1, duration: 1.85, ease: "power1.inOut" }, 6.22);
@@ -988,12 +994,14 @@
       gsap.utils.toArray(".node-n").forEach((el, i) => {
         tl.fromTo(el, { color: "#9aa3b8" }, { color: "#ffffff", duration: 0.12, ease: "none" }, 6.22 + i * 0.45);
       });
-      tl.to("#s3Wrap", { x: -160, opacity: 0, duration: 0.2, ease: "power3.in" }, 8.6);
+      tl.to("#s3Wrap", { opacity: 0, filter: "blur(14px)", duration: 0.38, ease: "power2.in" }, 8.47);
 
       // ---------- S4: stats + marquee (8.8 – 11.95) ----------
-      tl.fromTo("#s4Wrap", { x: 160 }, { x: 0, duration: 0.5, ease: "expo.out" }, 8.8);
+      // focus-pull in, then a slow push for the rest of the beat
+      tl.fromTo("#s4Wrap", { scale: 1.045, opacity: 0, filter: "blur(14px)" }, { scale: 1, opacity: 1, filter: "blur(0px)", duration: 0.6, ease: "power3.out" }, 8.75);
+      tl.to("#s4Wrap", { scale: 1.02, duration: 2.6, ease: "none" }, 9.35);
       tl.fromTo("#s4Kicker", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "none" }, 8.85);
-      tl.fromTo("#s4Title .w", { yPercent: 115 }, { yPercent: 0, duration: 0.5, ease: "expo.out", stagger: 0.06 }, 8.85);
+      tl.fromTo("#s4Title .w", { yPercent: 115, filter: "blur(12px)" }, { yPercent: 0, filter: "blur(0px)", duration: 0.6, ease: "expo.out", stagger: 0.06 }, 8.85);
       tl.fromTo(".tile", { y: 70, opacity: 0, scale: 0.94 }, { y: 0, opacity: 1, scale: 1, duration: 0.55, ease: "power4.out", stagger: 0.08 }, 8.95);
       tl.fromTo(".tile-edge", { scaleX: 0 }, { scaleX: 1, duration: 1.0, ease: "power2.out", stagger: 0.08 }, 9.1);
       tl.fromTo("#award", { opacity: 0 }, { opacity: 1, duration: 0.2, ease: "power1.out" }, 9.12);
@@ -1017,6 +1025,8 @@
       });
       tl.fromTo("#marquee", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "none" }, 9.2);
       tl.fromTo("#marqueeRow", { x: 0 }, { x: -1100, duration: 2.75, ease: "none" }, 9.2);
+      // stats recede into depth while the badge floods the frame
+      tl.to(["#s4Wrap", "#marquee"], { opacity: 0.25, filter: "blur(10px)", duration: 0.4, ease: "power2.in" }, 11.52);
 
       // ---------- S5: lockup (11.95 – 15) ----------
       tl.fromTo("#s5Glow", { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 1.4, ease: "power2.out" }, 12.0);
@@ -1033,10 +1043,10 @@
       tl.set("#logoBlade", { opacity: 0 }, 12.8);
       tl.fromTo("#s5Divider", { scaleY: 0 }, { scaleY: 1, duration: 0.6, ease: "power3.out" }, 12.35);
       tl.fromTo("#s5Kicker", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, 12.92);
-      tl.fromTo("#s5Tag .w", { yPercent: 115 }, { yPercent: 0, duration: 0.6, ease: "expo.out", stagger: 0.05 }, 12.95);
+      tl.fromTo("#s5Tag .w", { yPercent: 115, filter: "blur(12px)" }, { yPercent: 0, filter: "blur(0px)", duration: 0.65, ease: "expo.out", stagger: 0.05 }, 12.95);
       tl.fromTo("#cta", { opacity: 0 }, { opacity: 1, duration: 0.14, ease: "power1.out" }, 13.24);
       tl.fromTo("#url", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.45, ease: "power2.out" }, 13.35);
-      tl.fromTo("#cta", { scale: 1 }, { scale: 0.95, duration: 0.1, ease: "power2.in" }, 13.85);
+      tl.to("#cta", { scale: 0.95, duration: 0.1, ease: "power2.in" }, 13.85);
       tl.to("#cta", { scale: 1, duration: 0.5, ease: "elastic.out(1, 0.5)" }, 13.95);
       tl.fromTo("#s5Wrap", { scale: 1 }, { scale: 1.03, duration: 3.05, ease: "sine.out" }, 11.95);
 
@@ -1059,21 +1069,23 @@
         );
       }
       const SHAPE = {
-        rule: quad(960, 703.5, 1600, 3, 1.5),
-        prompt: quad(960, 537, 1200, 176, 32),
-        promptTop: quad(960, 398, 1200, 176, 32),
-        step1: quad(172, 605.5, 64, 64, 32),
-        step5: quad(1748, 605.5, 64, 64, 32),
-        award: quad(1564.2, 310.8, 431.6, 60, 30),
+        rule: quad(960, 708.35, 1647.4, 3.1, 1.55),
+        prompt: quad(959.95, 537.05, 1201.9, 176.3, 32),
+        promptTop: quad(960, 394.9, 1226.2, 179.8, 32.7),
+        step1: quad(168.75, 605.75, 64.3, 64.3, 32.15),
+        step5: quad(1765.5, 606.9, 65.4, 65.4, 32.7),
+        awardIn: quad(1564.25, 310.8, 431.7, 60, 30),
+        awardOut: quad(1574.15, 307.1, 438.7, 61, 30.5),
         cover: quad(960, 540, 2240, 1360, 0),
-        bladeIn: quad(138, 540, 7, 464, 3.5, SKEW),
-        bladeOut: quad(1025.7, 540, 8.2, 524.5, 4, SKEW),
-        cta: quad(1301.3, 638.8, 431.2, 85.8, 42.9),
+        bladeIn: quad(135.7, 540, 7.23, 465.4, 3.6, SKEW),
+        bladeOut: quad(1024.95, 540, 8.15, 524.8, 4, SKEW),
+        cta: quad(1300.4, 638.5, 430, 85.6, 42.8),
       };
       const BLUE = "#2563eb", CARD = "#0f1219", BADGE = "#132a63", WHITE = "#ffffff";
       const morph = (from, to, t, dur, ease) =>
         tl.fromTo("#mp", { morphSVG: { shape: from, shapeIndex: 0 } }, { morphSVG: { shape: to, shapeIndex: 0 }, duration: dur, ease }, t);
-      const show = (t, fill) => tl.set("#mp", { opacity: 1, fill }, t);
+      const show = (t, fill) =>
+        tl.set("#mp", { opacity: 1, fill, attr: { stroke: fill === CARD ? "rgba(255,255,255,0.16)" : "none", "stroke-width": 1.5 } }, t);
       const hide = (t, d = 0.1) => tl.to("#mp", { opacity: 0, duration: d, ease: "power1.out" }, t);
       tl.set("#mp", { attr: { d: SHAPE.rule } }, 0);
 
@@ -1082,6 +1094,7 @@
       show(2.2, BLUE);
       morph(SHAPE.rule, SHAPE.prompt, 2.2, 0.6, "power4.inOut");
       tl.to("#mp", { fill: CARD, duration: 0.3, ease: "power1.inOut" }, 2.48);
+      tl.set("#mp", { attr: { stroke: "rgba(255,255,255,0.16)", "stroke-width": 1.5 } }, 2.62);
       hide(2.86);
 
       // 2 · prompt box collapses into step 01 of the rollout rail
@@ -1089,18 +1102,19 @@
       tl.set("#prompt", { opacity: 0 }, 5.3);
       morph(SHAPE.promptTop, SHAPE.step1, 5.33, 0.62, "power3.inOut");
       tl.to("#mp", { fill: BLUE, duration: 0.35, ease: "power1.inOut" }, 5.45);
+      tl.set("#mp", { attr: { stroke: "none" } }, 5.55);
       hide(6.22, 0.12);
 
       // 3 · step 05 lifts into the award badge
       show(8.45, BLUE);
-      morph(SHAPE.step5, SHAPE.award, 8.5, 0.65, "expo.inOut");
+      morph(SHAPE.step5, SHAPE.awardIn, 8.5, 0.65, "expo.inOut");
       tl.to("#mp", { fill: BADGE, duration: 0.25, ease: "power1.inOut" }, 8.92);
       hide(9.22, 0.12);
 
       // 4 · badge floods the frame, then snaps into the blade that cuts in the logo
       show(11.5, BADGE);
       tl.set("#award", { opacity: 0 }, 11.5);
-      morph(SHAPE.award, SHAPE.cover, 11.5, 0.42, "power3.in");
+      morph(SHAPE.awardOut, SHAPE.cover, 11.5, 0.42, "power3.in");
       tl.to("#mp", { fill: BLUE, duration: 0.2, ease: "none" }, 11.5);
       morph(SHAPE.cover, SHAPE.bladeIn, 11.92, 0.28, "power4.inOut");
       tl.to("#mp", { fill: WHITE, duration: 0.18, ease: "none" }, 12.02);
