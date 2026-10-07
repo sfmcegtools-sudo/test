@@ -1,0 +1,1041 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>Cutting Edge School — 10s Launch Promo</title>
+    <script src="assets/vendor/gsap.min.js"></script>
+    <style>
+      @font-face {
+        font-family: "DM Sans";
+        src: url("fonts/DMSans-Variable.woff2") format("woff2");
+        font-weight: 100 1000;
+        font-style: normal;
+      }
+      @font-face {
+        font-family: "DM Sans";
+        src: url("fonts/DMSans-Variable-Italic.woff2") format("woff2");
+        font-weight: 100 1000;
+        font-style: italic;
+      }
+      @font-face {
+        font-family: "JetBrains Mono";
+        src: url("fonts/JetBrainsMono-500.woff2") format("woff2");
+        font-weight: 500;
+        font-style: normal;
+      }
+
+      :root {
+        --bg: #050507;
+        --card: #0c0e14;
+        --card-2: #11141c;
+        --blue: #2563eb;
+        --blue-hi: #4d8bff;
+        --ink: #f5f7fa;
+        --mute: #9aa3b8;
+        --line: rgba(255, 255, 255, 0.09);
+        --line-hi: rgba(255, 255, 255, 0.16);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: var(--bg);
+      }
+      #root {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: "DM Sans", sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+      .mono {
+        font-family: "JetBrains Mono", monospace;
+        font-weight: 500;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      .scene {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+      .m {
+        display: inline-block;
+        overflow: hidden;
+        vertical-align: top;
+        padding: 0.04em 0.02em 0.12em;
+        margin-bottom: -0.12em;
+      }
+      .w {
+        display: inline-block;
+      }
+      .blue {
+        color: var(--blue-hi);
+      }
+
+      /* ---------- background ---------- */
+      #bg {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+      }
+      .grid {
+        position: absolute;
+        inset: -80px;
+        background-image:
+          linear-gradient(var(--line) 1px, transparent 1px),
+          linear-gradient(90deg, var(--line) 1px, transparent 1px);
+        background-size: 96px 96px;
+        opacity: 0.5;
+        -webkit-mask-image: radial-gradient(ellipse 70% 65% at 50% 50%, #000 30%, transparent 85%);
+        mask-image: radial-gradient(ellipse 70% 65% at 50% 50%, #000 30%, transparent 85%);
+      }
+      .glow {
+        position: absolute;
+        width: 1400px;
+        height: 1400px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(37, 99, 235, 0.32) 0%, rgba(37, 99, 235, 0) 62%);
+      }
+      #glowA {
+        left: -380px;
+        top: -520px;
+      }
+      #glowB {
+        right: -520px;
+        bottom: -700px;
+        background: radial-gradient(circle, rgba(77, 139, 255, 0.22) 0%, rgba(77, 139, 255, 0) 60%);
+      }
+      .vignette {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(ellipse 85% 80% at 50% 50%, transparent 55%, rgba(0, 0, 0, 0.7) 100%);
+      }
+
+      /* ---------- HUD ---------- */
+      #hud {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+      }
+      .hud-top {
+        position: absolute;
+        left: 120px;
+        right: 120px;
+        top: 56px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 18px;
+        color: var(--mute);
+      }
+      .hud-brand {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        color: var(--ink);
+      }
+      .hud-dot {
+        display: block;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--blue);
+        box-shadow: 0 0 16px var(--blue);
+      }
+      .hud-right {
+        display: flex;
+        gap: 32px;
+      }
+      #timecode {
+        color: var(--ink);
+        min-width: 110px;
+        text-align: right;
+      }
+      .hud-progress {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 4px;
+        background: rgba(255, 255, 255, 0.06);
+      }
+      #progressFill {
+        display: block;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, var(--blue), var(--blue-hi));
+        transform-origin: left center;
+      }
+
+      /* ---------- S1 hook ---------- */
+      .s1-wrap {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 0 160px;
+      }
+      .s1-kicker {
+        font-size: 24px;
+        color: var(--blue-hi);
+        margin-bottom: 36px;
+      }
+      .s1-lines {
+        position: relative;
+        height: 220px;
+      }
+      .hero {
+        position: absolute;
+        left: 0;
+        top: 0;
+        font-size: 196px;
+        line-height: 1;
+        font-weight: 700;
+        letter-spacing: -0.045em;
+        white-space: nowrap;
+      }
+      #s1Rule {
+        display: block;
+        width: 1600px;
+        height: 3px;
+        margin-top: 40px;
+        background: linear-gradient(90deg, var(--blue), rgba(37, 99, 235, 0));
+        transform-origin: left center;
+      }
+
+      /* ---------- S2 prompt ---------- */
+      .s2-stage {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 48px;
+      }
+      #prompt {
+        width: 1200px;
+        height: 176px;
+        border-radius: 32px;
+        background: linear-gradient(180deg, var(--card-2), var(--card));
+        border: 1px solid var(--line-hi);
+        box-shadow:
+          0 40px 120px rgba(0, 0, 0, 0.6),
+          0 0 0 1px rgba(37, 99, 235, 0.18),
+          0 0 80px rgba(37, 99, 235, 0.18);
+        padding: 30px 30px 30px 44px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+      .prompt-top {
+        font-size: 18px;
+        color: var(--blue-hi);
+      }
+      .prompt-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      #ptext {
+        font-size: 52px;
+        font-weight: 500;
+        letter-spacing: -0.02em;
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+      }
+      #ptext .ch {
+        white-space: pre;
+      }
+      #caret {
+        display: block;
+        width: 4px;
+        height: 54px;
+        margin-left: 6px;
+        background: var(--blue-hi);
+      }
+      #send {
+        width: 76px;
+        height: 76px;
+        border-radius: 50%;
+        background: var(--blue);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 0 40px rgba(37, 99, 235, 0.6);
+      }
+      .cards {
+        display: flex;
+        gap: 28px;
+      }
+      .pcard {
+        width: 381px;
+        height: 236px;
+        border-radius: 24px;
+        background: linear-gradient(180deg, var(--card-2), var(--card));
+        border: 1px solid var(--line-hi);
+        padding: 30px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        position: relative;
+        overflow: hidden;
+      }
+      .pcard-edge {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 3px;
+        background: linear-gradient(90deg, var(--blue), var(--blue-hi));
+        transform-origin: left center;
+      }
+      .pcard-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .pcard-num {
+        width: 52px;
+        height: 52px;
+        border-radius: 14px;
+        background: rgba(37, 99, 235, 0.16);
+        border: 1px solid rgba(77, 139, 255, 0.4);
+        color: var(--blue-hi);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+      }
+      .pcard-tag {
+        font-size: 15px;
+        color: var(--mute);
+      }
+      .pcard h3 {
+        font-size: 33px;
+        font-weight: 600;
+        letter-spacing: -0.02em;
+        line-height: 1.1;
+      }
+      .pcard p {
+        font-size: 21px;
+        color: var(--mute);
+        margin-top: 8px;
+      }
+
+      /* ---------- S3 process ---------- */
+      .s3-wrap {
+        position: absolute;
+        inset: 0;
+        padding: 190px 140px 0;
+        display: flex;
+        flex-direction: column;
+      }
+      .s3-kicker {
+        font-size: 22px;
+        color: var(--blue-hi);
+        margin-bottom: 22px;
+      }
+      .s3-title {
+        font-size: 112px;
+        font-weight: 700;
+        letter-spacing: -0.045em;
+        line-height: 1;
+      }
+      .chips {
+        display: flex;
+        gap: 16px;
+        margin-top: 40px;
+      }
+      .chip {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        height: 56px;
+        padding: 0 26px 0 20px;
+        border-radius: 999px;
+        border: 1px solid var(--line-hi);
+        background: var(--card);
+        font-size: 24px;
+        font-weight: 500;
+      }
+      .chip-dot {
+        display: block;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: var(--blue-hi);
+        box-shadow: 0 0 12px var(--blue-hi);
+      }
+      .rail {
+        position: relative;
+        margin-top: 120px;
+        width: 1640px;
+        height: 200px;
+      }
+      .rail-track,
+      #railFill {
+        position: absolute;
+        left: 32px;
+        top: 31px;
+        width: 1576px;
+        height: 4px;
+        border-radius: 2px;
+      }
+      .rail-track {
+        background: rgba(255, 255, 255, 0.1);
+      }
+      #railFill {
+        background: linear-gradient(90deg, var(--blue), var(--blue-hi));
+        box-shadow: 0 0 18px rgba(77, 139, 255, 0.8);
+        transform-origin: left center;
+      }
+      .node {
+        position: absolute;
+        top: 0;
+        width: 260px;
+        margin-left: -98px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+      .node-dot {
+        position: relative;
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        background: var(--card);
+        border: 2px solid var(--line-hi);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        color: var(--mute);
+      }
+      .node-on {
+        position: absolute;
+        inset: -2px;
+        border-radius: 50%;
+        background: var(--blue);
+        box-shadow: 0 0 34px rgba(37, 99, 235, 0.9);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .node-n {
+        position: relative;
+      }
+      .node-label {
+        margin-top: 22px;
+        font-size: 26px;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+      }
+      .node-sub {
+        margin-top: 4px;
+        font-size: 15px;
+        color: var(--mute);
+      }
+
+      /* ---------- S4 stats ---------- */
+      .s4-wrap {
+        position: absolute;
+        inset: 0;
+        padding: 190px 140px 0;
+        display: flex;
+        flex-direction: column;
+      }
+      .s4-head {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+      }
+      .s4-kicker {
+        font-size: 22px;
+        color: var(--blue-hi);
+        margin-bottom: 22px;
+      }
+      .s4-title {
+        font-size: 96px;
+        font-weight: 700;
+        letter-spacing: -0.045em;
+        line-height: 1;
+      }
+      .award {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        height: 60px;
+        padding: 0 26px;
+        border-radius: 999px;
+        border: 1px solid rgba(77, 139, 255, 0.45);
+        background: rgba(37, 99, 235, 0.12);
+        font-size: 20px;
+        color: var(--ink);
+      }
+      .tiles {
+        display: flex;
+        gap: 24px;
+        margin-top: 64px;
+      }
+      .tile {
+        position: relative;
+        width: 392px;
+        height: 300px;
+        border-radius: 28px;
+        border: 1px solid var(--line-hi);
+        background: linear-gradient(180deg, var(--card-2), var(--card));
+        padding: 36px 36px 34px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        overflow: hidden;
+      }
+      .tile-edge {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 3px;
+        background: linear-gradient(90deg, var(--blue), var(--blue-hi));
+        transform-origin: left center;
+      }
+      .tile-num {
+        font-size: 128px;
+        font-weight: 700;
+        letter-spacing: -0.05em;
+        line-height: 1;
+        font-variant-numeric: tabular-nums;
+      }
+      .tile-num .suf {
+        color: var(--blue-hi);
+      }
+      .tile-label {
+        font-size: 26px;
+        color: var(--mute);
+        font-weight: 500;
+      }
+      .marquee {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 96px;
+        height: 64px;
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+        border-top: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+      }
+      .marquee-label {
+        position: relative;
+        z-index: 2;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        padding: 0 24px 0 140px;
+        background: var(--bg);
+        font-size: 18px;
+        color: var(--blue-hi);
+        white-space: nowrap;
+      }
+      .marquee-label::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 100%;
+        width: 140px;
+        background: linear-gradient(90deg, var(--bg), rgba(5, 5, 7, 0));
+      }
+      #marqueeRow {
+        display: flex;
+        gap: 56px;
+        white-space: nowrap;
+        font-size: 26px;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+        color: var(--ink);
+      }
+      #marqueeRow .sep {
+        color: var(--blue-hi);
+      }
+
+      /* ---------- wipe ---------- */
+      #wipePanel {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--blue);
+      }
+
+      /* ---------- S5 lockup ---------- */
+      .s5-wrap {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 72px;
+      }
+      #s5Glow {
+        position: absolute;
+        left: 260px;
+        top: 140px;
+        width: 900px;
+        height: 800px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(37, 99, 235, 0.45) 0%, rgba(37, 99, 235, 0) 65%);
+      }
+      .wordmark-frame {
+        position: relative;
+        transform: skewY(-7deg);
+      }
+      .wordmark {
+        display: flex;
+        flex-direction: column;
+        font-style: italic;
+        font-weight: 900;
+        line-height: 0.86;
+        letter-spacing: -0.035em;
+        text-transform: uppercase;
+      }
+      .wm-line {
+        display: block;
+      }
+      .wm-sm {
+        font-size: 64px;
+      }
+      .wm-lg {
+        font-size: 184px;
+      }
+      .wm-right {
+        align-self: flex-end;
+      }
+      #s5Divider {
+        display: block;
+        width: 2px;
+        height: 420px;
+        background: linear-gradient(180deg, rgba(77, 139, 255, 0), var(--blue-hi), rgba(77, 139, 255, 0));
+        transform-origin: center center;
+      }
+      .s5-copy {
+        width: 740px;
+        display: flex;
+        flex-direction: column;
+      }
+      .s5-kicker {
+        font-size: 20px;
+        color: var(--blue-hi);
+        margin-bottom: 22px;
+      }
+      .s5-tag {
+        font-size: 70px;
+        font-weight: 700;
+        letter-spacing: -0.04em;
+        line-height: 1.02;
+      }
+      .s5-cta-row {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 22px;
+        margin-top: 48px;
+      }
+      #cta {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        height: 84px;
+        padding: 0 40px;
+        border-radius: 999px;
+        background: var(--blue);
+        font-size: 30px;
+        font-weight: 600;
+        box-shadow:
+          0 0 0 1px rgba(255, 255, 255, 0.12) inset,
+          0 20px 60px rgba(37, 99, 235, 0.55);
+      }
+      .url {
+        font-size: 22px;
+        color: var(--mute);
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="10"
+      data-width="1920"
+      data-height="1080"
+    >
+      <!-- Background: grid + drifting brand glows -->
+      <div id="bg" class="clip" data-start="0" data-duration="10" data-track-index="0">
+        <div class="grid" id="grid"></div>
+        <div class="glow" id="glowA"></div>
+        <div class="glow" id="glowB"></div>
+        <div class="vignette"></div>
+      </div>
+
+      <!-- S1: hook -->
+      <section id="s1" class="clip scene" data-start="0" data-duration="1.7" data-track-index="1">
+        <div class="s1-wrap">
+          <div class="s1-kicker mono" id="s1Kicker">// The AI shift is here</div>
+          <div class="s1-lines">
+            <h1 class="hero" id="s1a">
+              <span class="m"><span class="w">AI</span></span>
+              <span class="m"><span class="w">moves</span></span>
+              <span class="m"><span class="w">fast.</span></span>
+            </h1>
+            <h1 class="hero" id="s1b">
+              <span class="m"><span class="w">Does</span></span>
+              <span class="m"><span class="w blue">your</span></span>
+              <span class="m"><span class="w blue">team?</span></span>
+            </h1>
+          </div>
+          <div id="s1Rule"></div>
+        </div>
+      </section>
+
+      <!-- S2: AI prompt -> programs -->
+      <section id="s2" class="clip scene" data-start="1.7" data-duration="2.05" data-track-index="2">
+        <div class="s2-stage" id="s2Stage">
+          <div id="prompt">
+            <div class="prompt-top mono">✦ Ask Cutting Edge</div>
+            <div class="prompt-row">
+              <div id="ptext"><span id="caret"></span></div>
+              <div id="send">
+                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M5 12h14M13 6l6 6-6 6" />
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div class="cards">
+            <div class="pcard">
+              <div class="pcard-edge"></div>
+              <div class="pcard-head"><div class="pcard-num mono">01</div><div class="pcard-tag mono">Leaders</div></div>
+              <div>
+                <h3>AI Leadership Alignment</h3>
+                <p>Strategy, rollout &amp; outcomes</p>
+              </div>
+            </div>
+            <div class="pcard">
+              <div class="pcard-edge"></div>
+              <div class="pcard-head"><div class="pcard-num mono">02</div><div class="pcard-tag mono">Company</div></div>
+              <div>
+                <h3>Company-wide Masterclass</h3>
+                <p>A shared Agentic AI foundation</p>
+              </div>
+            </div>
+            <div class="pcard">
+              <div class="pcard-edge"></div>
+              <div class="pcard-head"><div class="pcard-num mono">03</div><div class="pcard-tag mono">Champions</div></div>
+              <div>
+                <h3>AI Champions Program</h3>
+                <p>Build internal AI leaders</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- S3: 5-stage execution rail -->
+      <section id="s3" class="clip scene" data-start="3.75" data-duration="2" data-track-index="3">
+        <div class="s3-wrap" id="s3Wrap">
+          <div class="s3-kicker mono" id="s3Kicker">How it works · 5-stage execution</div>
+          <h2 class="s3-title" id="s3Title">
+            <span class="m"><span class="w">From</span></span>
+            <span class="m"><span class="w">workshop</span></span>
+            <span class="m"><span class="w">to</span></span>
+            <span class="m"><span class="w blue">workflow.</span></span>
+          </h2>
+          <div class="chips">
+            <div class="chip"><span class="chip-dot"></span>Operations</div>
+            <div class="chip"><span class="chip-dot"></span>Marketing</div>
+            <div class="chip"><span class="chip-dot"></span>Sales</div>
+          </div>
+          <div class="rail">
+            <div class="rail-track"></div>
+            <div id="railFill"></div>
+            <div class="node" style="left: 0px">
+              <div class="node-dot mono"><div class="node-on"></div><span class="node-n">01</span></div>
+              <div class="node-label">Pain points</div>
+              <div class="node-sub mono">Discover</div>
+            </div>
+            <div class="node" style="left: 394px">
+              <div class="node-dot mono"><div class="node-on"></div><span class="node-n">02</span></div>
+              <div class="node-label">AI curriculum</div>
+              <div class="node-sub mono">Validate</div>
+            </div>
+            <div class="node" style="left: 788px">
+              <div class="node-dot mono"><div class="node-on"></div><span class="node-n">03</span></div>
+              <div class="node-label">Hands-on training</div>
+              <div class="node-sub mono">Apply</div>
+            </div>
+            <div class="node" style="left: 1182px">
+              <div class="node-dot mono"><div class="node-on"></div><span class="node-n">04</span></div>
+              <div class="node-label">AI champions</div>
+              <div class="node-sub mono">Lead</div>
+            </div>
+            <div class="node" style="left: 1576px">
+              <div class="node-dot mono"><div class="node-on"></div><span class="node-n">05</span></div>
+              <div class="node-label">Monthly refreshers</div>
+              <div class="node-sub mono">Sustain</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- S4: proof -->
+      <section id="s4" class="clip scene" data-start="5.75" data-duration="2.05" data-track-index="4">
+        <div class="s4-wrap" id="s4Wrap">
+          <div class="s4-head">
+            <div>
+              <div class="s4-kicker mono" id="s4Kicker">Trusted worldwide</div>
+              <h2 class="s4-title" id="s4Title">
+                <span class="m"><span class="w">Real</span></span>
+                <span class="m"><span class="w">teams.</span></span>
+                <span class="m"><span class="w blue">Real</span></span>
+                <span class="m"><span class="w blue">results.</span></span>
+              </h2>
+            </div>
+            <div class="award mono" id="award"><span class="hud-dot"></span>AI Disruptors Award · 2025</div>
+          </div>
+          <div class="tiles">
+            <div class="tile">
+              <div class="tile-edge"></div>
+              <div class="tile-num"><span class="count" data-to="53" data-dec="0">0</span><span class="suf">+</span></div>
+              <div class="tile-label">Countries reached</div>
+            </div>
+            <div class="tile">
+              <div class="tile-edge"></div>
+              <div class="tile-num"><span class="count" data-to="4.7" data-dec="1">0.0</span><span class="suf">★</span></div>
+              <div class="tile-label">Avg. satisfaction</div>
+            </div>
+            <div class="tile">
+              <div class="tile-edge"></div>
+              <div class="tile-num"><span class="count" data-to="25" data-dec="0">0</span><span class="suf">+</span></div>
+              <div class="tile-label">Enterprise programs</div>
+            </div>
+            <div class="tile">
+              <div class="tile-edge"></div>
+              <div class="tile-num"><span class="count" data-to="700" data-dec="0">0</span><span class="suf">K+</span></div>
+              <div class="tile-label">YouTube community</div>
+            </div>
+          </div>
+        </div>
+        <div class="marquee" id="marquee">
+          <div class="marquee-label mono" data-layout-allow-overlap>Delivered to teams at</div>
+          <div id="marqueeRow">
+            <span>The Economic Times</span><span class="sep">✦</span>
+            <span>Dubai Future Foundation</span><span class="sep">✦</span>
+            <span>Dubai Holdings</span><span class="sep">✦</span>
+            <span>Lenskart</span><span class="sep">✦</span>
+            <span>Reliance Digital</span><span class="sep">✦</span>
+            <span>HP</span><span class="sep">✦</span>
+            <span>Intel</span><span class="sep">✦</span>
+            <span>DCM Shriram</span><span class="sep">✦</span>
+            <span>Lloyds Metals</span><span class="sep">✦</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Blue wipe into the lockup -->
+      <div id="wipe" class="clip scene" data-start="7.55" data-duration="0.7" data-track-index="5">
+        <div id="wipePanel"></div>
+      </div>
+
+      <!-- S5: brand lockup + CTA -->
+      <section id="s5" class="clip scene" data-start="7.8" data-duration="2.2" data-track-index="6">
+        <div id="s5Glow"></div>
+        <div class="s5-wrap" id="s5Wrap">
+          <div class="wordmark-frame">
+            <div class="wordmark" id="wordmark">
+              <span class="wm-line wm-sm">The</span>
+              <span class="wm-line wm-lg">Cutting</span>
+              <span class="wm-line wm-lg">Edge</span>
+              <span class="wm-line wm-sm wm-right">School</span>
+            </div>
+          </div>
+          <div id="s5Divider"></div>
+          <div class="s5-copy">
+            <div class="s5-kicker mono" id="s5Kicker">Evolve with AI</div>
+            <h2 class="s5-tag" id="s5Tag">
+              <span class="m"><span class="w">AI</span></span>
+              <span class="m"><span class="w">Trainings</span></span>
+              <span class="m"><span class="w">for</span></span>
+              <span class="m"><span class="w">Leadership</span></span>
+              <span class="m"><span class="w blue">&amp; Teams</span></span>
+            </h2>
+            <div class="s5-cta-row">
+              <div id="cta">
+                Enquire for Trainings
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M5 12h14M13 6l6 6-6 6" />
+                </svg>
+              </div>
+              <div class="url mono" id="url">cuttingedge.school</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- HUD chrome (top bar fades before the lockup; progress runs the full 10s) -->
+      <div id="hud" class="clip" data-start="0" data-duration="10" data-track-index="7">
+        <div class="hud-top mono" id="hudTop">
+          <div class="hud-brand"><span class="hud-dot"></span>The Cutting Edge School</div>
+          <div class="hud-right">
+            <span>AI trainings · Enterprise</span>
+            <span id="timecode">00:00:00</span>
+          </div>
+        </div>
+        <div class="hud-progress"><div id="progressFill"></div></div>
+      </div>
+    </div>
+
+    <script>
+      // Build the typed prompt as per-character spans so typing is seekable.
+      const PROMPT = "Upskill my leadership team on AI";
+      const ptext = document.getElementById("ptext");
+      const caret = document.getElementById("caret");
+      for (const c of PROMPT) {
+        const s = document.createElement("span");
+        s.className = "ch";
+        s.textContent = c;
+        ptext.insertBefore(s, caret);
+      }
+
+      const tl = gsap.timeline({ paused: true });
+      const FPS = 30;
+
+      // ---------- background + HUD (full length) ----------
+      tl.fromTo("#glowA", { x: 0, y: 0 }, { x: 520, y: 140, duration: 10, ease: "sine.inOut" }, 0);
+      tl.fromTo("#glowB", { x: 0, y: 0 }, { x: -380, y: -120, duration: 10, ease: "sine.inOut" }, 0);
+      tl.fromTo("#grid", { y: 0 }, { y: 96, duration: 10, ease: "none" }, 0);
+      tl.fromTo("#progressFill", { scaleX: 0 }, { scaleX: 1, duration: 10, ease: "none" }, 0);
+      const tc = { t: 0 };
+      const tcEl = document.getElementById("timecode");
+      const pad = (n) => String(n).padStart(2, "0");
+      tl.fromTo(
+        tc,
+        { t: 0 },
+        {
+          t: 10,
+          duration: 10,
+          ease: "none",
+          onUpdate: () => {
+            const f = Math.round(tc.t * FPS);
+            tcEl.textContent = `00:${pad(Math.floor(f / FPS))}:${pad(f % FPS)}`;
+          },
+        },
+        0,
+      );
+      tl.fromTo("#hudTop", { opacity: 0, y: -16 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 0.15);
+      tl.to("#hudTop", { opacity: 0, duration: 0.2, ease: "power1.in" }, 7.5);
+
+      // ---------- S1: hook (0 – 1.7) ----------
+      tl.fromTo("#s1Kicker", { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: 0.5, ease: "expo.out" }, 0.12);
+      tl.fromTo("#s1a .w", { yPercent: 110 }, { yPercent: 0, duration: 0.42, ease: "expo.out", stagger: 0.07 }, 0.18);
+      tl.fromTo("#s1Rule", { scaleX: 0 }, { scaleX: 1, duration: 0.7, ease: "power4.out" }, 0.3);
+      tl.to("#s1a .w", { yPercent: -110, duration: 0.18, ease: "power3.in", stagger: 0.03 }, 0.86);
+      tl.fromTo("#s1b .w", { yPercent: 110 }, { yPercent: 0, duration: 0.38, ease: "back.out(1.6)", stagger: 0.06 }, 1.0);
+      tl.fromTo("#s1b", { scale: 1, transformOrigin: "0% 50%" }, { scale: 1.06, duration: 0.6, ease: "power1.in" }, 1.1);
+      tl.to("#s1Rule", { scaleX: 0, transformOrigin: "100% 50%", duration: 0.22, ease: "power2.in" }, 1.46);
+
+      // ---------- S2: prompt -> programs (1.7 – 3.75) ----------
+      const promptLift = 139; // centred alone vs. resting above the cards
+      tl.fromTo("#prompt", { y: promptLift + 40, scale: 0.92, opacity: 0 }, { y: promptLift, scale: 1, opacity: 1, duration: 0.32, ease: "expo.out" }, 1.72);
+      const chars = gsap.utils.toArray("#ptext .ch");
+      chars.forEach((c, i) => tl.fromTo(c, { display: "none" }, { display: "inline", duration: 0.001, ease: "none" }, 1.92 + i * 0.019));
+      tl.fromTo("#send", { scale: 1 }, { scale: 0.84, duration: 0.08, ease: "power2.in" }, 2.56);
+      tl.to("#send", { scale: 1, duration: 0.35, ease: "back.out(3)" }, 2.64);
+      tl.fromTo("#caret", { opacity: 1 }, { opacity: 0, duration: 0.08, ease: "none" }, 2.62);
+      tl.to("#prompt", { y: 0, duration: 0.42, ease: "power3.inOut" }, 2.66);
+      tl.fromTo(".pcard", { y: 90, opacity: 0, rotationX: -18, transformPerspective: 1000 }, { y: 0, opacity: 1, rotationX: 0, duration: 0.5, ease: "expo.out", stagger: 0.07 }, 2.82);
+      tl.fromTo(".pcard-edge", { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "power2.out", stagger: 0.07 }, 3.0);
+      tl.to("#s2Stage", { scale: 1.08, opacity: 0, duration: 0.18, ease: "power2.in" }, 3.57);
+
+      // ---------- S3: 5-stage rail (3.75 – 5.75) ----------
+      tl.fromTo("#s3Kicker", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.35, ease: "power3.out" }, 3.78);
+      tl.fromTo("#s3Title .w", { yPercent: 115 }, { yPercent: 0, duration: 0.45, ease: "expo.out", stagger: 0.05 }, 3.8);
+      tl.fromTo(".chip", { scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.32, ease: "back.out(2.2)", stagger: 0.06 }, 4.0);
+      tl.fromTo(".node", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, ease: "power3.out", stagger: 0.04 }, 3.92);
+      tl.fromTo("#railFill", { scaleX: 0 }, { scaleX: 1, duration: 1.1, ease: "power1.inOut" }, 4.12);
+      gsap.utils.toArray(".node-on").forEach((el, i) => {
+        tl.fromTo(el, { scale: 0.3, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.26, ease: "back.out(2.5)" }, 4.1 + i * 0.27);
+      });
+      gsap.utils.toArray(".node-n").forEach((el, i) => {
+        tl.fromTo(el, { color: "#9aa3b8" }, { color: "#ffffff", duration: 0.12, ease: "none" }, 4.1 + i * 0.27);
+      });
+      tl.to("#s3Wrap", { x: -160, opacity: 0, duration: 0.17, ease: "power3.in" }, 5.58);
+
+      // ---------- S4: stats + marquee (5.75 – 7.8) ----------
+      tl.fromTo("#s4Wrap", { x: 160 }, { x: 0, duration: 0.4, ease: "expo.out" }, 5.75);
+      tl.fromTo("#s4Kicker", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "none" }, 5.8);
+      tl.fromTo("#s4Title .w", { yPercent: 115 }, { yPercent: 0, duration: 0.42, ease: "expo.out", stagger: 0.045 }, 5.8);
+      tl.fromTo("#award", { opacity: 0, scale: 0.85 }, { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(2)" }, 6.05);
+      tl.fromTo(".tile", { y: 70, opacity: 0, scale: 0.94 }, { y: 0, opacity: 1, scale: 1, duration: 0.45, ease: "power4.out", stagger: 0.06 }, 5.9);
+      tl.fromTo(".tile-edge", { scaleX: 0 }, { scaleX: 1, duration: 0.8, ease: "power2.out", stagger: 0.06 }, 6.05);
+      gsap.utils.toArray(".count").forEach((el, i) => {
+        const to = parseFloat(el.dataset.to);
+        const dec = parseInt(el.dataset.dec, 10);
+        const o = { v: 0 };
+        tl.fromTo(
+          o,
+          { v: 0 },
+          {
+            v: to,
+            duration: 0.95,
+            ease: "power3.out",
+            onUpdate: () => {
+              el.textContent = o.v.toFixed(dec);
+            },
+          },
+          6.0 + i * 0.06,
+        );
+      });
+      tl.fromTo("#marquee", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "none" }, 6.1);
+      tl.fromTo("#marqueeRow", { x: 0 }, { x: -720, duration: 1.7, ease: "none" }, 6.1);
+
+      // ---------- wipe (7.55 – 8.25) ----------
+      tl.fromTo("#wipePanel", { xPercent: -100 }, { xPercent: 0, duration: 0.25, ease: "power3.in" }, 7.55);
+      tl.to("#wipePanel", { xPercent: 100, duration: 0.4, ease: "expo.out" }, 7.82);
+
+      // ---------- S5: lockup (7.8 – 10) ----------
+      tl.fromTo("#s5Glow", { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 1.2, ease: "power2.out" }, 7.85);
+      tl.fromTo("#wordmark .wm-line", { xPercent: -18, opacity: 0 }, { xPercent: 0, opacity: 1, duration: 0.55, ease: "expo.out", stagger: 0.06 }, 7.9);
+      tl.fromTo("#s5Divider", { scaleY: 0 }, { scaleY: 1, duration: 0.5, ease: "power3.out" }, 8.15);
+      tl.fromTo("#s5Kicker", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, 8.2);
+      tl.fromTo("#s5Tag .w", { yPercent: 115 }, { yPercent: 0, duration: 0.5, ease: "expo.out", stagger: 0.04 }, 8.25);
+      tl.fromTo("#cta", { scale: 0.7, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.45, ease: "back.out(2.2)" }, 8.6);
+      tl.fromTo("#url", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.4, ease: "power2.out" }, 8.75);
+      tl.to("#cta", { scale: 0.95, duration: 0.09, ease: "power2.in" }, 9.2);
+      tl.to("#cta", { scale: 1, duration: 0.4, ease: "elastic.out(1, 0.5)" }, 9.29);
+      tl.fromTo("#s5Wrap", { scale: 1 }, { scale: 1.025, duration: 2.2, ease: "sine.out" }, 7.8);
+
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>
