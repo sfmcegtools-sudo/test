@@ -13,12 +13,6 @@
         font-style: normal;
       }
       @font-face {
-        font-family: "DM Sans";
-        src: url("fonts/DMSans-Variable-Italic.woff2") format("woff2");
-        font-weight: 100 1000;
-        font-style: italic;
-      }
-      @font-face {
         font-family: "JetBrains Mono";
         src: url("fonts/JetBrainsMono-500.woff2") format("woff2");
         font-weight: 500;
@@ -144,8 +138,12 @@
       .hud-brand {
         display: flex;
         align-items: center;
-        gap: 14px;
-        color: var(--ink);
+      }
+      #hudLogo {
+        display: block;
+        width: 110px;
+        height: 60px;
+        background: url("assets/brand/logo.svg") left center / contain no-repeat;
       }
       .hud-dot {
         display: block;
@@ -605,30 +603,28 @@
         border-radius: 50%;
         background: radial-gradient(circle, rgba(37, 99, 235, 0.45) 0%, rgba(37, 99, 235, 0) 65%);
       }
-      .wordmark-frame {
+      #logoWrap {
         position: relative;
-        transform: skewY(-7deg);
+        width: 820px;
+        height: 445px;
       }
-      .wordmark {
-        display: flex;
-        flex-direction: column;
-        font-style: italic;
-        font-weight: 900;
-        line-height: 0.86;
-        letter-spacing: -0.035em;
-        text-transform: uppercase;
-      }
-      .wm-line {
+      #logoImg {
         display: block;
+        width: 100%;
+        height: 100%;
       }
-      .wm-sm {
-        font-size: 64px;
-      }
-      .wm-lg {
-        font-size: 184px;
-      }
-      .wm-right {
-        align-self: flex-end;
+      #logoBlade {
+        position: absolute;
+        top: -8%;
+        left: 0;
+        width: 8px;
+        height: 116%;
+        border-radius: 4px;
+        background: #ffffff;
+        box-shadow:
+          0 0 18px #ffffff,
+          0 0 48px var(--blue-hi),
+          0 0 90px var(--blue);
       }
       #s5Divider {
         display: block;
@@ -870,13 +866,9 @@
       <section id="s5" class="clip scene" data-start="11.95" data-duration="3.05" data-track-index="6">
         <div id="s5Glow"></div>
         <div class="s5-wrap" id="s5Wrap">
-          <div class="wordmark-frame">
-            <div class="wordmark" id="wordmark">
-              <span class="wm-line wm-sm">The</span>
-              <span class="wm-line wm-lg">Cutting</span>
-              <span class="wm-line wm-lg">Edge</span>
-              <span class="wm-line wm-sm wm-right">School</span>
-            </div>
+          <div id="logoWrap">
+            <img id="logoImg" src="assets/brand/logo.svg" alt="The Cutting Edge School" />
+            <div id="logoBlade"></div>
           </div>
           <div id="s5Divider"></div>
           <div class="s5-copy">
@@ -904,7 +896,7 @@
       <!-- HUD chrome (top bar fades before the lockup; progress runs the full 15s) -->
       <div id="hud" class="clip" data-start="0" data-duration="15" data-track-index="7">
         <div class="hud-top mono" id="hudTop">
-          <div class="hud-brand"><span class="hud-dot"></span>The Cutting Edge School</div>
+          <div class="hud-brand"><div id="hudLogo" role="img" aria-label="The Cutting Edge School"></div></div>
           <div class="hud-right">
             <span>AI trainings · Enterprise</span>
             <span id="timecode">00:00:00</span>
@@ -1047,7 +1039,17 @@
 
       // ---------- S5: lockup (11.95 – 15) ----------
       tl.fromTo("#s5Glow", { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 1.4, ease: "power2.out" }, 12.0);
-      tl.fromTo("#wordmark .wm-line", { xPercent: -18, opacity: 0 }, { xPercent: 0, opacity: 1, duration: 0.65, ease: "expo.out", stagger: 0.07 }, 12.03);
+      // Official logo: a glowing blade slices across and reveals it, landing on the bass hit.
+      tl.fromTo("#logoWrap", { scale: 0.88 }, { scale: 1, duration: 0.8, ease: "back.out(1.7)" }, 12.0);
+      // The reveal edge leans like the blade (skewX -18deg ≈ ±8.8% of the logo width top-to-bottom).
+      tl.fromTo(
+        "#logoImg",
+        { clipPath: "polygon(-20% 0%, 8.8% 0%, -8.8% 100%, -20% 100%)" },
+        { clipPath: "polygon(-20% 0%, 118.8% 0%, 101.2% 100%, -20% 100%)", duration: 0.6, ease: "power3.inOut" },
+        12.03,
+      );
+      tl.fromTo("#logoBlade", { x: -4, skewX: -18, opacity: 1 }, { x: 898, skewX: -18, duration: 0.6, ease: "power3.inOut" }, 12.03);
+      tl.to("#logoBlade", { opacity: 0, duration: 0.18, ease: "power1.out" }, 12.5);
       tl.fromTo("#s5Divider", { scaleY: 0 }, { scaleY: 1, duration: 0.6, ease: "power3.out" }, 12.35);
       tl.fromTo("#s5Kicker", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, 12.4);
       tl.fromTo("#s5Tag .w", { yPercent: 115 }, { yPercent: 0, duration: 0.6, ease: "expo.out", stagger: 0.05 }, 12.45);
