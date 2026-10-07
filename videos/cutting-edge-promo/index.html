@@ -685,12 +685,12 @@
       id="root"
       data-composition-id="main"
       data-start="0"
-      data-duration="10"
+      data-duration="15"
       data-width="1920"
       data-height="1080"
     >
       <!-- Background: grid + drifting brand glows -->
-      <div id="bg" class="clip" data-start="0" data-duration="10" data-track-index="0">
+      <div id="bg" class="clip" data-start="0" data-duration="15" data-track-index="0">
         <div class="grid" id="grid"></div>
         <div class="glow" id="glowA"></div>
         <div class="glow" id="glowB"></div>
@@ -698,7 +698,7 @@
       </div>
 
       <!-- S1: hook -->
-      <section id="s1" class="clip scene" data-start="0" data-duration="1.7" data-track-index="1">
+      <section id="s1" class="clip scene" data-start="0" data-duration="2.6" data-track-index="1">
         <div class="s1-wrap">
           <div class="s1-kicker mono" id="s1Kicker">// The AI shift is here</div>
           <div class="s1-lines">
@@ -718,7 +718,7 @@
       </section>
 
       <!-- S2: AI prompt -> programs -->
-      <section id="s2" class="clip scene" data-start="1.7" data-duration="2.05" data-track-index="2">
+      <section id="s2" class="clip scene" data-start="2.6" data-duration="3.1" data-track-index="2">
         <div class="s2-stage" id="s2Stage">
           <div id="prompt">
             <div class="prompt-top mono">✦ Ask Cutting Edge</div>
@@ -761,7 +761,7 @@
       </section>
 
       <!-- S3: 5-stage execution rail -->
-      <section id="s3" class="clip scene" data-start="3.75" data-duration="2" data-track-index="3">
+      <section id="s3" class="clip scene" data-start="5.7" data-duration="3.1" data-track-index="3">
         <div class="s3-wrap" id="s3Wrap">
           <div class="s3-kicker mono" id="s3Kicker">How it works · 5-stage execution</div>
           <h2 class="s3-title" id="s3Title">
@@ -808,7 +808,7 @@
       </section>
 
       <!-- S4: proof -->
-      <section id="s4" class="clip scene" data-start="5.75" data-duration="2.05" data-track-index="4">
+      <section id="s4" class="clip scene" data-start="8.8" data-duration="3.15" data-track-index="4">
         <div class="s4-wrap" id="s4Wrap">
           <div class="s4-head">
             <div>
@@ -862,12 +862,12 @@
       </section>
 
       <!-- Blue wipe into the lockup -->
-      <div id="wipe" class="clip scene" data-start="7.55" data-duration="0.7" data-track-index="5">
+      <div id="wipe" class="clip scene" data-start="11.65" data-duration="0.8" data-track-index="5">
         <div id="wipePanel"></div>
       </div>
 
       <!-- S5: brand lockup + CTA -->
-      <section id="s5" class="clip scene" data-start="7.8" data-duration="2.2" data-track-index="6">
+      <section id="s5" class="clip scene" data-start="11.95" data-duration="3.05" data-track-index="6">
         <div id="s5Glow"></div>
         <div class="s5-wrap" id="s5Wrap">
           <div class="wordmark-frame">
@@ -901,8 +901,8 @@
         </div>
       </section>
 
-      <!-- HUD chrome (top bar fades before the lockup; progress runs the full 10s) -->
-      <div id="hud" class="clip" data-start="0" data-duration="10" data-track-index="7">
+      <!-- HUD chrome (top bar fades before the lockup; progress runs the full 15s) -->
+      <div id="hud" class="clip" data-start="0" data-duration="15" data-track-index="7">
         <div class="hud-top mono" id="hudTop">
           <div class="hud-brand"><span class="hud-dot"></span>The Cutting Edge School</div>
           <div class="hud-right">
@@ -912,6 +912,28 @@
         </div>
         <div class="hud-progress"><div id="progressFill"></div></div>
       </div>
+
+      <!-- SFX (bundled HyperFrames/Pixabay library), mixed low under the picture -->
+      <audio id="sfx-open" src="assets/sfx/whoosh-short.mp3" data-start="0.22" data-duration="0.57" data-volume="0.22" data-track-index="10"></audio>
+      <audio id="sfx-riser" src="assets/sfx/riser.mp3" data-start="1.97" data-duration="10.03" data-volume="0.14" data-track-index="11"></audio>
+      <audio id="sfx-swap" src="assets/sfx/whoosh.mp3" data-start="1.32" data-duration="0.57" data-volume="0.24" data-track-index="12"></audio>
+      <audio id="sfx-prompt" src="assets/sfx/pop.mp3" data-start="2.68" data-duration="0.72" data-volume="0.2" data-track-index="13"></audio>
+      <audio id="sfx-typing" src="assets/sfx/typing.mp3" data-start="2.95" data-duration="0.95" data-volume="0.22" data-track-index="14"></audio>
+      <audio id="sfx-send" src="assets/sfx/click.mp3" data-start="3.95" data-duration="0.37" data-volume="0.3" data-track-index="15"></audio>
+      <audio id="sfx-cards" src="assets/sfx/whoosh-short.mp3" data-start="4.28" data-duration="0.57" data-volume="0.2" data-track-index="16"></audio>
+      <audio id="sfx-exit2" src="assets/sfx/whoosh-short.mp3" data-start="5.47" data-duration="0.57" data-volume="0.18" data-track-index="17"></audio>
+      <audio id="sfx-node1" src="assets/sfx/pop.mp3" data-start="6.22" data-duration="0.72" data-volume="0.16" data-track-index="18"></audio>
+      <audio id="sfx-node2" src="assets/sfx/pop.mp3" data-start="6.67" data-duration="0.72" data-volume="0.16" data-track-index="19"></audio>
+      <audio id="sfx-node3" src="assets/sfx/pop.mp3" data-start="7.12" data-duration="0.72" data-volume="0.16" data-track-index="20"></audio>
+      <audio id="sfx-node4" src="assets/sfx/pop.mp3" data-start="7.57" data-duration="0.72" data-volume="0.16" data-track-index="21"></audio>
+      <audio id="sfx-node5" src="assets/sfx/pop.mp3" data-start="8.02" data-duration="0.72" data-volume="0.16" data-track-index="22"></audio>
+      <audio id="sfx-whip" src="assets/sfx/whoosh.mp3" data-start="8.58" data-duration="0.57" data-volume="0.22" data-track-index="23"></audio>
+      <audio id="sfx-tiles" src="assets/sfx/whoosh-short.mp3" data-start="8.95" data-duration="0.57" data-volume="0.16" data-track-index="24"></audio>
+      <audio id="sfx-stats" src="assets/sfx/ping.mp3" data-start="10.35" data-duration="1.32" data-volume="0.18" data-track-index="25"></audio>
+      <audio id="sfx-wipe" src="assets/sfx/whoosh.mp3" data-start="11.62" data-duration="0.57" data-volume="0.26" data-track-index="26"></audio>
+      <audio id="sfx-logo" src="assets/sfx/impact-bass-1.mp3" data-start="12.0" data-duration="2.12" data-volume="0.32" data-track-index="27"></audio>
+      <audio id="sfx-cta" src="assets/sfx/sparkle.mp3" data-start="12.85" data-duration="1.8" data-volume="0.16" data-track-index="28"></audio>
+      <audio id="sfx-press" src="assets/sfx/click.mp3" data-start="13.7" data-duration="0.37" data-volume="0.26" data-track-index="29"></audio>
     </div>
 
     <script>
@@ -928,12 +950,13 @@
 
       const tl = gsap.timeline({ paused: true });
       const FPS = 30;
+      const DUR = 15;
 
       // ---------- background + HUD (full length) ----------
-      tl.fromTo("#glowA", { x: 0, y: 0 }, { x: 520, y: 140, duration: 10, ease: "sine.inOut" }, 0);
-      tl.fromTo("#glowB", { x: 0, y: 0 }, { x: -380, y: -120, duration: 10, ease: "sine.inOut" }, 0);
-      tl.fromTo("#grid", { y: 0 }, { y: 96, duration: 10, ease: "none" }, 0);
-      tl.fromTo("#progressFill", { scaleX: 0 }, { scaleX: 1, duration: 10, ease: "none" }, 0);
+      tl.fromTo("#glowA", { x: 0, y: 0 }, { x: 560, y: 160, duration: DUR, ease: "sine.inOut" }, 0);
+      tl.fromTo("#glowB", { x: 0, y: 0 }, { x: -420, y: -140, duration: DUR, ease: "sine.inOut" }, 0);
+      tl.fromTo("#grid", { y: 0 }, { y: 96, duration: DUR, ease: "none" }, 0);
+      tl.fromTo("#progressFill", { scaleX: 0 }, { scaleX: 1, duration: DUR, ease: "none" }, 0);
       const tc = { t: 0 };
       const tcEl = document.getElementById("timecode");
       const pad = (n) => String(n).padStart(2, "0");
@@ -941,8 +964,8 @@
         tc,
         { t: 0 },
         {
-          t: 10,
-          duration: 10,
+          t: DUR,
+          duration: DUR,
           ease: "none",
           onUpdate: () => {
             const f = Math.round(tc.t * FPS);
@@ -951,52 +974,52 @@
         },
         0,
       );
-      tl.fromTo("#hudTop", { opacity: 0, y: -16 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 0.15);
-      tl.to("#hudTop", { opacity: 0, duration: 0.2, ease: "power1.in" }, 7.5);
+      tl.fromTo("#hudTop", { opacity: 0, y: -16 }, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, 0.15);
+      tl.to("#hudTop", { opacity: 0, duration: 0.25, ease: "power1.in" }, 11.55);
 
-      // ---------- S1: hook (0 – 1.7) ----------
-      tl.fromTo("#s1Kicker", { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: 0.5, ease: "expo.out" }, 0.12);
-      tl.fromTo("#s1a .w", { yPercent: 110 }, { yPercent: 0, duration: 0.42, ease: "expo.out", stagger: 0.07 }, 0.18);
-      tl.fromTo("#s1Rule", { scaleX: 0 }, { scaleX: 1, duration: 0.7, ease: "power4.out" }, 0.3);
-      tl.to("#s1a .w", { yPercent: -110, duration: 0.18, ease: "power3.in", stagger: 0.03 }, 0.86);
-      tl.fromTo("#s1b .w", { yPercent: 110 }, { yPercent: 0, duration: 0.38, ease: "back.out(1.6)", stagger: 0.06 }, 1.0);
-      tl.fromTo("#s1b", { scale: 1, transformOrigin: "0% 50%" }, { scale: 1.06, duration: 0.6, ease: "power1.in" }, 1.1);
-      tl.to("#s1Rule", { scaleX: 0, transformOrigin: "100% 50%", duration: 0.22, ease: "power2.in" }, 1.46);
+      // ---------- S1: hook (0 – 2.6) ----------
+      tl.fromTo("#s1Kicker", { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: 0.6, ease: "expo.out" }, 0.2);
+      tl.fromTo("#s1a .w", { yPercent: 110 }, { yPercent: 0, duration: 0.55, ease: "expo.out", stagger: 0.1 }, 0.28);
+      tl.fromTo("#s1Rule", { scaleX: 0 }, { scaleX: 1, duration: 1.0, ease: "power4.out" }, 0.45);
+      tl.to("#s1a .w", { yPercent: -110, duration: 0.22, ease: "power3.in", stagger: 0.04 }, 1.3);
+      tl.fromTo("#s1b .w", { yPercent: 110 }, { yPercent: 0, duration: 0.5, ease: "back.out(1.6)", stagger: 0.08 }, 1.45);
+      tl.fromTo("#s1b", { scale: 1, transformOrigin: "0% 50%" }, { scale: 1.05, duration: 1.0, ease: "power1.in" }, 1.6);
+      tl.to("#s1Rule", { scaleX: 0, transformOrigin: "100% 50%", duration: 0.25, ease: "power2.in" }, 2.33);
 
-      // ---------- S2: prompt -> programs (1.7 – 3.75) ----------
+      // ---------- S2: prompt -> programs (2.6 – 5.7) ----------
       const promptLift = 139; // centred alone vs. resting above the cards
-      tl.fromTo("#prompt", { y: promptLift + 40, scale: 0.92, opacity: 0 }, { y: promptLift, scale: 1, opacity: 1, duration: 0.32, ease: "expo.out" }, 1.72);
+      tl.fromTo("#prompt", { y: promptLift + 40, scale: 0.92, opacity: 0 }, { y: promptLift, scale: 1, opacity: 1, duration: 0.45, ease: "expo.out" }, 2.68);
       const chars = gsap.utils.toArray("#ptext .ch");
-      chars.forEach((c, i) => tl.fromTo(c, { display: "none" }, { display: "inline", duration: 0.001, ease: "none" }, 1.92 + i * 0.019));
-      tl.fromTo("#send", { scale: 1 }, { scale: 0.84, duration: 0.08, ease: "power2.in" }, 2.56);
-      tl.to("#send", { scale: 1, duration: 0.35, ease: "back.out(3)" }, 2.64);
-      tl.fromTo("#caret", { opacity: 1 }, { opacity: 0, duration: 0.08, ease: "none" }, 2.62);
-      tl.to("#prompt", { y: 0, duration: 0.42, ease: "power3.inOut" }, 2.66);
-      tl.fromTo(".pcard", { y: 90, opacity: 0, rotationX: -18, transformPerspective: 1000 }, { y: 0, opacity: 1, rotationX: 0, duration: 0.5, ease: "expo.out", stagger: 0.07 }, 2.82);
-      tl.fromTo(".pcard-edge", { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "power2.out", stagger: 0.07 }, 3.0);
-      tl.to("#s2Stage", { scale: 1.08, opacity: 0, duration: 0.18, ease: "power2.in" }, 3.57);
+      chars.forEach((c, i) => tl.fromTo(c, { display: "none" }, { display: "inline", duration: 0.001, ease: "none" }, 2.95 + i * 0.03));
+      tl.fromTo("#caret", { opacity: 1 }, { opacity: 0, duration: 0.08, ease: "none" }, 3.95);
+      tl.fromTo("#send", { scale: 1 }, { scale: 0.84, duration: 0.1, ease: "power2.in" }, 3.95);
+      tl.to("#send", { scale: 1, duration: 0.4, ease: "back.out(3)" }, 4.05);
+      tl.to("#prompt", { y: 0, duration: 0.5, ease: "power3.inOut" }, 4.1);
+      tl.fromTo(".pcard", { y: 90, opacity: 0, rotationX: -18, transformPerspective: 1000 }, { y: 0, opacity: 1, rotationX: 0, duration: 0.6, ease: "expo.out", stagger: 0.1 }, 4.3);
+      tl.fromTo(".pcard-edge", { scaleX: 0 }, { scaleX: 1, duration: 0.7, ease: "power2.out", stagger: 0.1 }, 4.5);
+      tl.to("#s2Stage", { scale: 1.08, opacity: 0, duration: 0.22, ease: "power2.in" }, 5.47);
 
-      // ---------- S3: 5-stage rail (3.75 – 5.75) ----------
-      tl.fromTo("#s3Kicker", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.35, ease: "power3.out" }, 3.78);
-      tl.fromTo("#s3Title .w", { yPercent: 115 }, { yPercent: 0, duration: 0.45, ease: "expo.out", stagger: 0.05 }, 3.8);
-      tl.fromTo(".chip", { scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.32, ease: "back.out(2.2)", stagger: 0.06 }, 4.0);
-      tl.fromTo(".node", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, ease: "power3.out", stagger: 0.04 }, 3.92);
-      tl.fromTo("#railFill", { scaleX: 0 }, { scaleX: 1, duration: 1.1, ease: "power1.inOut" }, 4.12);
+      // ---------- S3: 5-stage rail (5.7 – 8.8) ----------
+      tl.fromTo("#s3Kicker", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.45, ease: "power3.out" }, 5.75);
+      tl.fromTo("#s3Title .w", { yPercent: 115 }, { yPercent: 0, duration: 0.55, ease: "expo.out", stagger: 0.07 }, 5.78);
+      tl.fromTo(".node", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: "power3.out", stagger: 0.06 }, 5.95);
+      tl.fromTo(".chip", { scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, ease: "back.out(2.2)", stagger: 0.08 }, 6.1);
+      tl.fromTo("#railFill", { scaleX: 0 }, { scaleX: 1, duration: 1.85, ease: "power1.inOut" }, 6.22);
       gsap.utils.toArray(".node-on").forEach((el, i) => {
-        tl.fromTo(el, { scale: 0.3, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.26, ease: "back.out(2.5)" }, 4.1 + i * 0.27);
+        tl.fromTo(el, { scale: 0.3, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3, ease: "back.out(2.5)" }, 6.22 + i * 0.45);
       });
       gsap.utils.toArray(".node-n").forEach((el, i) => {
-        tl.fromTo(el, { color: "#9aa3b8" }, { color: "#ffffff", duration: 0.12, ease: "none" }, 4.1 + i * 0.27);
+        tl.fromTo(el, { color: "#9aa3b8" }, { color: "#ffffff", duration: 0.12, ease: "none" }, 6.22 + i * 0.45);
       });
-      tl.to("#s3Wrap", { x: -160, opacity: 0, duration: 0.17, ease: "power3.in" }, 5.58);
+      tl.to("#s3Wrap", { x: -160, opacity: 0, duration: 0.2, ease: "power3.in" }, 8.6);
 
-      // ---------- S4: stats + marquee (5.75 – 7.8) ----------
-      tl.fromTo("#s4Wrap", { x: 160 }, { x: 0, duration: 0.4, ease: "expo.out" }, 5.75);
-      tl.fromTo("#s4Kicker", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "none" }, 5.8);
-      tl.fromTo("#s4Title .w", { yPercent: 115 }, { yPercent: 0, duration: 0.42, ease: "expo.out", stagger: 0.045 }, 5.8);
-      tl.fromTo("#award", { opacity: 0, scale: 0.85 }, { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(2)" }, 6.05);
-      tl.fromTo(".tile", { y: 70, opacity: 0, scale: 0.94 }, { y: 0, opacity: 1, scale: 1, duration: 0.45, ease: "power4.out", stagger: 0.06 }, 5.9);
-      tl.fromTo(".tile-edge", { scaleX: 0 }, { scaleX: 1, duration: 0.8, ease: "power2.out", stagger: 0.06 }, 6.05);
+      // ---------- S4: stats + marquee (8.8 – 11.95) ----------
+      tl.fromTo("#s4Wrap", { x: 160 }, { x: 0, duration: 0.5, ease: "expo.out" }, 8.8);
+      tl.fromTo("#s4Kicker", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "none" }, 8.85);
+      tl.fromTo("#s4Title .w", { yPercent: 115 }, { yPercent: 0, duration: 0.5, ease: "expo.out", stagger: 0.06 }, 8.85);
+      tl.fromTo(".tile", { y: 70, opacity: 0, scale: 0.94 }, { y: 0, opacity: 1, scale: 1, duration: 0.55, ease: "power4.out", stagger: 0.08 }, 8.95);
+      tl.fromTo(".tile-edge", { scaleX: 0 }, { scaleX: 1, duration: 1.0, ease: "power2.out", stagger: 0.08 }, 9.1);
+      tl.fromTo("#award", { opacity: 0, scale: 0.85 }, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)" }, 9.2);
       gsap.utils.toArray(".count").forEach((el, i) => {
         const to = parseFloat(el.dataset.to);
         const dec = parseInt(el.dataset.dec, 10);
@@ -1006,33 +1029,33 @@
           { v: 0 },
           {
             v: to,
-            duration: 0.95,
+            duration: 1.3,
             ease: "power3.out",
             onUpdate: () => {
               el.textContent = o.v.toFixed(dec);
             },
           },
-          6.0 + i * 0.06,
+          9.05 + i * 0.08,
         );
       });
-      tl.fromTo("#marquee", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "none" }, 6.1);
-      tl.fromTo("#marqueeRow", { x: 0 }, { x: -720, duration: 1.7, ease: "none" }, 6.1);
+      tl.fromTo("#marquee", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "none" }, 9.2);
+      tl.fromTo("#marqueeRow", { x: 0 }, { x: -1100, duration: 2.75, ease: "none" }, 9.2);
 
-      // ---------- wipe (7.55 – 8.25) ----------
-      tl.fromTo("#wipePanel", { xPercent: -100 }, { xPercent: 0, duration: 0.25, ease: "power3.in" }, 7.55);
-      tl.to("#wipePanel", { xPercent: 100, duration: 0.4, ease: "expo.out" }, 7.82);
+      // ---------- wipe (11.65 – 12.45) ----------
+      tl.fromTo("#wipePanel", { xPercent: -100 }, { xPercent: 0, duration: 0.3, ease: "power3.in" }, 11.65);
+      tl.to("#wipePanel", { xPercent: 100, duration: 0.45, ease: "expo.out" }, 11.97);
 
-      // ---------- S5: lockup (7.8 – 10) ----------
-      tl.fromTo("#s5Glow", { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 1.2, ease: "power2.out" }, 7.85);
-      tl.fromTo("#wordmark .wm-line", { xPercent: -18, opacity: 0 }, { xPercent: 0, opacity: 1, duration: 0.55, ease: "expo.out", stagger: 0.06 }, 7.9);
-      tl.fromTo("#s5Divider", { scaleY: 0 }, { scaleY: 1, duration: 0.5, ease: "power3.out" }, 8.15);
-      tl.fromTo("#s5Kicker", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, 8.2);
-      tl.fromTo("#s5Tag .w", { yPercent: 115 }, { yPercent: 0, duration: 0.5, ease: "expo.out", stagger: 0.04 }, 8.25);
-      tl.fromTo("#cta", { scale: 0.7, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.45, ease: "back.out(2.2)" }, 8.6);
-      tl.fromTo("#url", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.4, ease: "power2.out" }, 8.75);
-      tl.to("#cta", { scale: 0.95, duration: 0.09, ease: "power2.in" }, 9.2);
-      tl.to("#cta", { scale: 1, duration: 0.4, ease: "elastic.out(1, 0.5)" }, 9.29);
-      tl.fromTo("#s5Wrap", { scale: 1 }, { scale: 1.025, duration: 2.2, ease: "sine.out" }, 7.8);
+      // ---------- S5: lockup (11.95 – 15) ----------
+      tl.fromTo("#s5Glow", { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 1.4, ease: "power2.out" }, 12.0);
+      tl.fromTo("#wordmark .wm-line", { xPercent: -18, opacity: 0 }, { xPercent: 0, opacity: 1, duration: 0.65, ease: "expo.out", stagger: 0.07 }, 12.03);
+      tl.fromTo("#s5Divider", { scaleY: 0 }, { scaleY: 1, duration: 0.6, ease: "power3.out" }, 12.35);
+      tl.fromTo("#s5Kicker", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, 12.4);
+      tl.fromTo("#s5Tag .w", { yPercent: 115 }, { yPercent: 0, duration: 0.6, ease: "expo.out", stagger: 0.05 }, 12.45);
+      tl.fromTo("#cta", { scale: 0.7, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, ease: "back.out(2.2)" }, 12.85);
+      tl.fromTo("#url", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.45, ease: "power2.out" }, 13.0);
+      tl.to("#cta", { scale: 0.95, duration: 0.1, ease: "power2.in" }, 13.7);
+      tl.to("#cta", { scale: 1, duration: 0.5, ease: "elastic.out(1, 0.5)" }, 13.8);
+      tl.fromTo("#s5Wrap", { scale: 1 }, { scale: 1.03, duration: 3.05, ease: "sine.out" }, 11.95);
 
       window.__timelines["main"] = tl;
       tl.seek(0);
