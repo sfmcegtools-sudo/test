@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Wallet — Unlock to Route</title>
+<meta name="viewport" content="width=1080, initial-scale=1">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="stage">
+  <canvas id="bg" width="1080" height="1920"></canvas>
+
+  <!-- ───────────── 1 · App icon ───────────── -->
+  <div id="icon" class="layer">
+    <div class="app-tile">
+      <div class="mini mini-red"><i></i></div>
+      <div class="mini mini-green"><i></i></div>
+      <div class="mini mini-blue"><i></i></div>
+    </div>
+  </div>
+
+  <!-- ───────────── 2 · Face ID ───────────── -->
+  <div id="faceid" class="layer">
+    <svg class="faceid-svg" width="600" height="600" viewBox="-300 -300 600 600">
+      <defs>
+        <linearGradient id="scanLineGrad" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#2F7BFF" stop-opacity="0"/>
+          <stop offset="0.22" stop-color="#2F7BFF" stop-opacity="0.9"/>
+          <stop offset="0.5" stop-color="#2F7BFF" stop-opacity="1"/>
+          <stop offset="0.78" stop-color="#2F7BFF" stop-opacity="0.9"/>
+          <stop offset="1" stop-color="#2F7BFF" stop-opacity="0"/>
+        </linearGradient>
+        <linearGradient id="scanTrailGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#2F7BFF" stop-opacity="0"/>
+          <stop offset="1" stop-color="#2F7BFF" stop-opacity="0.26"/>
+        </linearGradient>
+        <linearGradient id="scanFadeH" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#fff" stop-opacity="0"/>
+          <stop offset="0.25" stop-color="#fff" stop-opacity="1"/>
+          <stop offset="0.75" stop-color="#fff" stop-opacity="1"/>
+          <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+        </linearGradient>
+        <mask id="scanMask" maskUnits="userSpaceOnUse" x="-160" y="-300" width="320" height="600">
+          <rect x="-160" y="-300" width="320" height="600" fill="url(#scanFadeH)"/>
+        </mask>
+        <clipPath id="scanClip"><rect x="-164" y="-164" width="328" height="328" rx="30"/></clipPath>
+      </defs>
+
+      <g class="fid-glow">
+        <g id="fid-dots"></g>
+        <g clip-path="url(#scanClip)">
+          <g id="fid-scan" mask="url(#scanMask)">
+            <rect x="-160" y="-96" width="320" height="96" fill="url(#scanTrailGrad)"/>
+            <rect x="-160" y="-2.5" width="320" height="5" rx="2.5" fill="url(#scanLineGrad)"/>
+          </g>
+        </g>
+        <g id="fid-brackets" fill="none" stroke="#2F7BFF" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+          <g class="bracket" data-sx="1"  data-sy="1"><path d="M -180 -60 L -180 -144 A 36 36 0 0 1 -144 -180 L -60 -180"/></g>
+          <g class="bracket" data-sx="-1" data-sy="1"><path d="M -180 -60 L -180 -144 A 36 36 0 0 1 -144 -180 L -60 -180"/></g>
+          <g class="bracket" data-sx="1"  data-sy="-1"><path d="M -180 -60 L -180 -144 A 36 36 0 0 1 -144 -180 L -60 -180"/></g>
+          <g class="bracket" data-sx="-1" data-sy="-1"><path d="M -180 -60 L -180 -144 A 36 36 0 0 1 -144 -180 L -60 -180"/></g>
+        </g>
+        <path id="fid-check" d="M -64 4 L -20 46 L 68 -46" fill="none" stroke="#2F7BFF" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+      </g>
+    </svg>
+  </div>
+
+  <!-- ───────────── 3 · Wallet ───────────── -->
+  <div id="wallet" class="layer">
+    <div class="card card-color card-red" id="card-red">
+      <div class="sheen"></div>
+      <div class="digits">•••• 4821</div>
+      <div class="wordmark">Ruby</div>
+    </div>
+    <div class="card card-color card-green" id="card-green">
+      <div class="sheen"></div>
+      <div class="wordmark">Jade</div>
+      <div class="digits">•••• 0937</div>
+    </div>
+    <div class="card card-color card-blue" id="card-blue">
+      <div class="sheen"></div>
+      <div class="wordmark">Cobalt</div>
+      <div class="digits">•••• 2650</div>
+    </div>
+    <div class="card card-black" id="card-black">
+      <div class="sheen-black"></div>
+      <div class="bal-label" id="bal-label">Balance</div>
+      <div class="bal-value" id="bal-value">$0.00</div>
+      <div class="goal" id="goal">
+        <div class="goal-track"><div class="goal-fill" id="goal-fill"></div></div>
+        <div class="goal-label"><span class="goal-pct">68%</span> of monthly goal</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ───────────── 4 · Map card ───────────── -->
+  <div id="map">
+    <svg id="mapsvg" width="984" height="1300" viewBox="0 0 984 1300">
+      <defs>
+        <filter id="routeGlowBlur" filterUnits="userSpaceOnUse" x="0" y="0" width="984" height="1300">
+          <feGaussianBlur stdDeviation="8"/>
+        </filter>
+        <filter id="softBlur4" x="-100%" y="-100%" width="300%" height="300%">
+          <feGaussianBlur stdDeviation="4"/>
+        </filter>
+        <filter id="softBlur8" x="-100%" y="-100%" width="300%" height="300%">
+          <feGaussianBlur stdDeviation="8"/>
+        </filter>
+        <radialGradient id="mapVignette" cx="0.5" cy="0.42" r="0.75">
+          <stop offset="0.55" stop-color="#000" stop-opacity="0"/>
+          <stop offset="1" stop-color="#000" stop-opacity="0.34"/>
+        </radialGradient>
+      </defs>
+      <rect width="984" height="1300" fill="#0E1015"/>
+      <g id="map-land" fill="#1C1F26" stroke="rgba(255,255,255,0.08)" stroke-width="1.5" stroke-linejoin="round"></g>
+      <g id="map-borders" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></g>
+      <rect width="984" height="1300" fill="url(#mapVignette)"/>
+
+      <path id="route-glow" fill="none" stroke="rgba(47,123,255,0.55)" stroke-width="18" stroke-linecap="round" filter="url(#routeGlowBlur)"/>
+      <path id="route" fill="none" stroke="#2F7BFF" stroke-width="6" stroke-linecap="round"/>
+
+      <g id="route-head">
+        <circle r="18" fill="rgba(47,123,255,0.55)" filter="url(#softBlur8)"/>
+        <circle r="7" fill="#FFFFFF"/>
+      </g>
+
+      <g id="pin-india" class="pin">
+        <ellipse class="pin-shadow" cx="0" cy="1" rx="20" ry="6.5" fill="rgba(0,0,0,0.85)" filter="url(#softBlur4)"/>
+        <g class="pin-body">
+          <g class="pin-glyph">
+            <path d="M0 -6 V -84" fill="none" stroke="#2F7BFF" stroke-width="3" stroke-linecap="round"/>
+            <path d="M1.5 -84 H 42 L 32.5 -72.5 L 42 -61 H 1.5" fill="rgba(47,123,255,0.32)" stroke="#2F7BFF" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+            <circle r="9" fill="#2F7BFF"/>
+            <circle r="3.5" fill="#FFFFFF"/>
+          </g>
+          <text class="pin-label" x="54" y="-62">India</text>
+        </g>
+      </g>
+      <g id="pin-dubai" class="pin">
+        <ellipse class="pin-shadow" cx="0" cy="1" rx="20" ry="6.5" fill="rgba(0,0,0,0.85)" filter="url(#softBlur4)"/>
+        <g class="pin-body">
+          <g class="pin-glyph">
+            <path d="M0 -6 V -84" fill="none" stroke="#2F7BFF" stroke-width="3" stroke-linecap="round"/>
+            <path d="M1.5 -84 H 42 L 32.5 -72.5 L 42 -61 H 1.5" fill="rgba(47,123,255,0.32)" stroke="#2F7BFF" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+            <circle r="9" fill="#2F7BFF"/>
+            <circle r="3.5" fill="#FFFFFF"/>
+          </g>
+          <text class="pin-label" x="54" y="-62">Dubai</text>
+        </g>
+      </g>
+      <g id="marker">
+        <circle id="marker-halo" r="30" fill="rgba(47,123,255,0.55)" filter="url(#softBlur8)"/>
+        <g id="marker-dot">
+          <circle r="14" fill="#FFFFFF" stroke="#2F7BFF" stroke-width="5"/>
+        </g>
+      </g>
+    </svg>
+    <div class="map-edge"></div>
+  </div>
+
+  <!-- ───────────── 5 · Glass panel ───────────── -->
+  <div id="panel">
+    <div class="panel-sheen"></div>
+    <div class="stat" id="stat-0">
+      <div class="stat-head">
+        <svg class="ico" viewBox="0 0 30 30"><circle cx="15" cy="15" r="11.5"/><path d="M15 8.5 V15 L19.5 18"/></svg>
+        <span>Time</span>
+      </div>
+      <div class="stat-val" id="val-time">00:00</div>
+    </div>
+    <div class="stat" id="stat-1">
+      <div class="stat-head">
+        <svg class="ico" viewBox="0 0 30 30"><circle cx="15" cy="17" r="10.5"/><path d="M11.5 3.5 H18.5 M15 3.5 V6.5 M15 17 L19 12.5 M24.5 7.5 L22.6 9.4"/></svg>
+        <span>Minutes</span>
+      </div>
+      <div class="stat-val" id="val-min">0</div>
+    </div>
+    <div class="stat" id="stat-2">
+      <div class="stat-head">
+        <svg class="ico" viewBox="0 0 30 30"><circle cx="7" cy="23" r="3.2"/><circle cx="23" cy="7" r="3.2"/><path d="M9.6 21.2 C 16 19.5, 10 12.5, 16 10.5 C 18 9.8, 19.2 9.2, 20.4 8.6" stroke-dasharray="0.1 4.4"/></svg>
+        <span>Distance</span>
+      </div>
+      <div class="stat-val" id="val-dist">0 km</div>
+    </div>
+
+    <div class="slider" id="slider">
+      <div class="fill-glow-mask"><div class="fill-glow" id="slider-glow"></div></div>
+      <div class="track"><div class="fill" id="slider-fill"></div></div>
+      <div class="thumb" id="thumb">
+        <div class="thumb-glow" id="thumb-glow"></div>
+        <div class="thumb-knob"></div>
+      </div>
+    </div>
+
+    <div class="play" id="play">
+      <div class="play-disc"></div>
+      <svg class="play-ico" id="ico-play" viewBox="-28 -28 56 56"><path d="M-9 -16 L 16 0 L -9 16 Z"/></svg>
+      <svg class="play-ico" id="ico-pause" viewBox="-28 -28 56 56"><path d="M-7.5 -15 V 15 M 7.5 -15 V 15"/></svg>
+    </div>
+  </div>
+
+</div>
+<script src="main.js"></script>
+</body>
+</html>

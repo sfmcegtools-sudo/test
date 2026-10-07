@@ -1,0 +1,465 @@
+/* Wallet — Unlock to Route · 1080 × 1920 · all motion is driven by seek(t) in main.js.
+   No CSS transitions or animations anywhere in this file. */
+
+:root {
+  --blue: #2F7BFF;
+  --glow: rgba(47, 123, 255, 0.55);
+  --card-blue: #2F6BFF;
+  --card-green: #1FB866;
+  --card-red: #FF4B4B;
+  --black-card: #050505;
+  --black-border: rgba(255, 255, 255, 0.08);
+  --green: #34E07A;
+  --track: rgba(255, 255, 255, 0.12);
+  --text: #FFFFFF;
+  --text-2: rgba(255, 255, 255, 0.6);
+  --land: #1C1F26;
+  --water: #0E1015;
+  --map-border: rgba(255, 255, 255, 0.08);
+  --bg: #0A0A0C;
+  --bg-lift: #16161A;
+  --card-shadow: 0 40px 80px rgba(0, 0, 0, 0.5);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 1080px;
+  height: 1920px;
+  overflow: hidden;
+  background: var(--bg);
+}
+
+#stage {
+  position: relative;
+  width: 1080px;
+  height: 1920px;
+  overflow: hidden;
+  background: radial-gradient(ellipse 78% 58% at 50% 50%, var(--bg-lift) 0%, #111114 45%, var(--bg) 100%);
+  font-family: 'Inter', sans-serif;
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
+}
+
+/* Static background, painted once at load by main.js: the same radial lift as the CSS gradient
+   above, but computed in float and dithered (seeded TPDF noise, ±1 LSB) so it never bands. */
+#bg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1080px;
+  height: 1920px;
+}
+
+/* Full-stage screen layers (icon, faceid, wallet). Visibility is set from t. */
+.layer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1080px;
+  height: 1920px;
+  transform-origin: 50% 50%;
+  visibility: hidden;
+  opacity: 0;
+}
+
+/* ───────────── 1 · App icon ───────────── */
+.app-tile {
+  position: absolute;
+  left: 330px;
+  top: 750px;
+  width: 420px;
+  height: 420px;
+  border-radius: 96px;
+  overflow: hidden;
+  background:
+    radial-gradient(120% 80% at 50% 0%, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0) 60%),
+    linear-gradient(180deg, var(--bg-lift) 0%, var(--black-card) 100%);
+  box-shadow:
+    var(--card-shadow),
+    inset 0 0 0 1px var(--black-border),
+    inset 0 1.5px 0 rgba(255, 255, 255, 0.10);
+}
+.mini {
+  position: absolute;
+  left: 85px;
+  width: 250px;
+  height: 160px;
+  border-radius: 26px;
+  overflow: hidden;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.45), inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+  transform-origin: 50% 50%;
+}
+.mini i {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(130% 110% at 0% 0%, rgba(255, 255, 255, 0.30) 0%, rgba(255, 255, 255, 0) 55%),
+    linear-gradient(160deg, rgba(0, 0, 0, 0) 45%, rgba(0, 0, 0, 0.16) 100%);
+}
+.mini-red   { top: 98px;  background: var(--card-red);   transform: rotate(-6deg); }
+.mini-green { top: 130px; background: var(--card-green); transform: rotate(-3deg); }
+.mini-blue  { top: 162px; background: var(--card-blue); }
+
+/* ───────────── 2 · Face ID ───────────── */
+.faceid-svg {
+  position: absolute;
+  left: 240px;
+  top: 660px;
+  overflow: visible;
+}
+.fid-glow { filter: drop-shadow(0 0 24px var(--glow)); }
+
+/* ───────────── 3 · Wallet cards ───────────── */
+.card {
+  position: absolute;
+  left: 90px;
+  top: 680px;               /* dead-centre: 960 − 560/2 */
+  width: 900px;
+  height: 560px;
+  border-radius: 44px;
+  overflow: hidden;
+  transform-origin: 50% 50%;
+  box-shadow: var(--card-shadow);
+}
+.card-red   { background: var(--card-red); }
+.card-green { background: var(--card-green); }
+.card-blue  { background: var(--card-blue); }
+.card-color .sheen {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    linear-gradient(112deg, rgba(255, 255, 255, 0) 30%, rgba(255, 255, 255, 0.10) 41%, rgba(255, 255, 255, 0.03) 50%, rgba(255, 255, 255, 0) 58%),
+    radial-gradient(110% 95% at 0% 0%, rgba(255, 255, 255, 0.26) 0%, rgba(255, 255, 255, 0.06) 42%, rgba(255, 255, 255, 0) 62%),
+    linear-gradient(165deg, rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, 0.20) 100%);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14), inset 0 1.5px 0 rgba(255, 255, 255, 0.28);
+}
+.wordmark {
+  position: absolute;
+  right: 50px;
+  top: 38px;
+  font-size: 46px;
+  font-weight: 800;
+  font-style: italic;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+.digits {
+  position: absolute;
+  left: 52px;
+  top: 44px;
+  font-size: 30px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+  opacity: 0.92;
+}
+
+/* Black balance card */
+.card-black {
+  top: 1080px;              /* rest: overlaps the bottom 120px of the blue card */
+  height: 430px;
+  background: var(--black-card);
+  overflow: hidden;
+  box-shadow: var(--card-shadow), 0 -14px 36px rgba(0, 0, 0, 0.30);
+}
+.card-black::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 1px solid var(--black-border);
+  pointer-events: none;
+}
+.sheen-black {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(120% 90% at 0% 0%, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0) 55%);
+}
+.bal-label {
+  position: absolute;
+  left: 56px;
+  top: 54px;
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--text-2);
+}
+.bal-value {
+  position: absolute;
+  left: 52px;
+  top: 104px;
+  font-size: 96px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.025em;
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+  white-space: nowrap;
+}
+.goal {
+  position: absolute;
+  left: 56px;
+  right: 56px;
+  top: 286px;
+}
+.goal-track {
+  position: relative;
+  height: 14px;
+  border-radius: 7px;
+  background: var(--track);
+  overflow: hidden;
+}
+.goal-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 68%;
+  height: 100%;
+  border-radius: 7px;
+  background: var(--green);
+  transform-origin: 0 50%;
+}
+.goal-label {
+  margin-top: 28px;
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--text-2);
+}
+.goal-pct {
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ───────────── 4 · Map card ───────────── */
+#map {
+  position: absolute;
+  left: 48px;               /* full width minus 48px gutters */
+  top: 310px;               /* centred: 960 − 1300/2 */
+  width: 984px;
+  height: 1300px;
+  border-radius: 44px;
+  overflow: hidden;
+  background: var(--water);
+  box-shadow: var(--card-shadow);
+  transform-origin: 50% 50%;
+  backface-visibility: hidden;
+  visibility: hidden;
+  opacity: 0;
+}
+#mapsvg { display: block; }
+.map-edge {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 1px var(--map-border);
+  pointer-events: none;
+}
+#wallet { backface-visibility: hidden; }
+
+.pin-glyph { filter: drop-shadow(0 0 24px var(--glow)); }
+.pin-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 28px;
+  font-weight: 500;
+  fill: var(--text);
+  stroke: rgba(14, 16, 21, 0.85);
+  stroke-width: 7px;
+  stroke-linejoin: round;
+  paint-order: stroke fill;
+}
+
+/* ───────────── 5 · Glass panel ───────────── */
+#panel {
+  position: absolute;
+  left: 72px;               /* inset 24px inside the map card */
+  top: 1230px;
+  width: 936px;
+  height: 356px;
+  border-radius: 56px;
+  background: rgba(255, 255, 255, 0.08);
+  -webkit-backdrop-filter: blur(40px) saturate(160%);
+  backdrop-filter: blur(40px) saturate(160%);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.14),
+    inset 0 1.5px 0 rgba(255, 255, 255, 0.30),
+    0 30px 60px rgba(0, 0, 0, 0.35);
+  transform-origin: 50% 50%;
+  visibility: hidden;
+  opacity: 0;
+}
+/* Fallback when backdrop-filter is unavailable (or ?glassFallback): a pre-blurred copy of the
+   map's static land/water, clipped to the panel and kept aligned with the map card. */
+#panel.fallback {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+.panel-backdrop {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  overflow: hidden;
+}
+.panel-backdrop svg {
+  position: absolute;
+  left: -24px;              /* map card (48, 310) − panel (72, 1230) */
+  top: -920px;
+  filter: blur(40px) saturate(160%);
+}
+.panel-sheen {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0) 38%);
+  pointer-events: none;
+}
+.stat {
+  position: absolute;
+  top: 46px;
+  width: 270px;
+}
+#stat-0 { left: 50px; }
+#stat-1 { left: 330px; }
+#stat-2 { left: 600px; }
+.stat-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 30px;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--text-2);
+}
+.ico {
+  width: 30px;
+  height: 30px;
+  fill: none;
+  stroke: var(--text-2);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  overflow: visible;
+}
+.stat-val {
+  margin-top: 16px;
+  font-size: 52px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.slider {
+  position: absolute;
+  left: 50px;
+  top: 236px;               /* centre line y = 256 (aligned with play button centre) */
+  width: 686px;
+  height: 40px;
+}
+.track {
+  position: absolute;
+  left: 0;
+  top: 15px;
+  width: 686px;
+  height: 10px;
+  border-radius: 5px;
+  background: var(--track);
+  overflow: hidden;
+}
+.fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 686px;
+  height: 10px;
+  border-radius: 5px;
+  background: var(--blue);
+}
+/* Soft blue glow under the slider fill. The static mask fades it out just left of the track
+   start, so only transform is animated (same translateX as the fill). */
+.fill-glow-mask {
+  position: absolute;
+  left: -40px;
+  top: -20px;
+  width: 766px;
+  height: 80px;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 40px);
+  mask-image: linear-gradient(90deg, transparent 0, #000 40px);
+}
+.fill-glow {
+  position: absolute;
+  left: 40px;
+  top: 35px;
+  width: 686px;
+  height: 10px;
+  border-radius: 5px;
+  background: var(--blue);
+  filter: blur(9px);
+  opacity: 0.9;
+}
+.thumb {
+  position: absolute;
+  left: -22px;
+  top: -2px;
+  width: 44px;
+  height: 44px;
+  transform-origin: 50% 50%;
+}
+.thumb-glow {
+  position: absolute;
+  inset: -14px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(47, 123, 255, 0.55) 0%, rgba(47, 123, 255, 0.0) 70%);
+}
+.thumb-knob {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--text);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(0, 0, 0, 0.06);
+}
+
+.play {
+  position: absolute;
+  left: 774px;
+  top: 200px;
+  width: 112px;
+  height: 112px;
+  transform-origin: 50% 50%;
+}
+.play-disc {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background:
+    radial-gradient(100% 100% at 50% 0%, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0) 60%),
+    var(--blue);
+  box-shadow: 0 0 24px var(--glow), 0 12px 28px rgba(0, 0, 0, 0.35), inset 0 1.5px 0 rgba(255, 255, 255, 0.3);
+}
+.play-ico {
+  position: absolute;
+  left: 28px;
+  top: 28px;
+  width: 56px;
+  height: 56px;
+  fill: none;
+  stroke: var(--text);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  overflow: visible;
+  transform-origin: 50% 50%;
+}
