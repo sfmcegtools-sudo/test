@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=1920, height=1080" />
     <title>Cutting Edge School — 10s Launch Promo</title>
     <script src="assets/vendor/gsap.min.js"></script>
+    <script src="assets/vendor/MorphSVGPlugin.min.js"></script>
     <style>
       @font-face {
         font-family: "DM Sans";
@@ -141,9 +142,9 @@
       }
       #hudLogo {
         display: block;
-        width: 110px;
+        width: 114px;
         height: 60px;
-        background: url("assets/brand/logo.svg") left center / contain no-repeat;
+        background: url("assets/brand/logo.png") left center / contain no-repeat;
       }
       .hud-dot {
         display: block;
@@ -576,13 +577,15 @@
       }
 
       /* ---------- wipe ---------- */
-      #wipePanel {
+      #morphSvg {
         position: absolute;
-        top: 0;
-        left: 0;
+        inset: 0;
         width: 100%;
         height: 100%;
-        background: var(--blue);
+        overflow: visible;
+      }
+      #mp {
+        filter: drop-shadow(0 0 28px rgba(37, 99, 235, 0.55));
       }
 
       /* ---------- S5 lockup ---------- */
@@ -605,8 +608,8 @@
       }
       #logoWrap {
         position: relative;
-        width: 820px;
-        height: 445px;
+        width: 840px;
+        height: 444px;
       }
       #logoImg {
         display: block;
@@ -857,17 +860,13 @@
         </div>
       </section>
 
-      <!-- Blue wipe into the lockup -->
-      <div id="wipe" class="clip scene" data-start="11.65" data-duration="0.8" data-track-index="5">
-        <div id="wipePanel"></div>
-      </div>
 
       <!-- S5: brand lockup + CTA -->
       <section id="s5" class="clip scene" data-start="11.95" data-duration="3.05" data-track-index="6">
         <div id="s5Glow"></div>
         <div class="s5-wrap" id="s5Wrap">
           <div id="logoWrap">
-            <img id="logoImg" src="assets/brand/logo.svg" alt="The Cutting Edge School" />
+            <img id="logoImg" src="assets/brand/logo.png" alt="The Cutting Edge School" />
             <div id="logoBlade"></div>
           </div>
           <div id="s5Divider"></div>
@@ -893,6 +892,13 @@
         </div>
       </section>
 
+      <!-- Morph thread: one brand shape that becomes each scene's key element -->
+      <div id="morphLayer" class="clip" data-start="0" data-duration="15" data-track-index="8">
+        <svg id="morphSvg" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+          <path id="mp" fill="#2563eb" opacity="0" />
+        </svg>
+      </div>
+
       <!-- HUD chrome (top bar fades before the lockup; progress runs the full 15s) -->
       <div id="hud" class="clip" data-start="0" data-duration="15" data-track-index="7">
         <div class="hud-top mono" id="hudTop">
@@ -907,25 +913,27 @@
 
       <!-- SFX (bundled HyperFrames/Pixabay library), mixed low under the picture -->
       <audio id="sfx-open" src="assets/sfx/whoosh-short.mp3" data-start="0.22" data-duration="0.57" data-volume="0.22" data-track-index="10"></audio>
-      <audio id="sfx-riser" src="assets/sfx/riser.mp3" data-start="1.97" data-duration="10.03" data-volume="0.14" data-track-index="11"></audio>
+      <audio id="sfx-riser" src="assets/sfx/riser.mp3" data-start="2.17" data-duration="10.03" data-volume="0.14" data-track-index="11"></audio>
       <audio id="sfx-swap" src="assets/sfx/whoosh.mp3" data-start="1.32" data-duration="0.57" data-volume="0.24" data-track-index="12"></audio>
-      <audio id="sfx-prompt" src="assets/sfx/pop.mp3" data-start="2.68" data-duration="0.72" data-volume="0.2" data-track-index="13"></audio>
+      <audio id="sfx-prompt" src="assets/sfx/pop.mp3" data-start="2.78" data-duration="0.72" data-volume="0.2" data-track-index="13"></audio>
       <audio id="sfx-typing" src="assets/sfx/typing.mp3" data-start="2.95" data-duration="0.95" data-volume="0.22" data-track-index="14"></audio>
       <audio id="sfx-send" src="assets/sfx/click.mp3" data-start="3.95" data-duration="0.37" data-volume="0.3" data-track-index="15"></audio>
       <audio id="sfx-cards" src="assets/sfx/whoosh-short.mp3" data-start="4.28" data-duration="0.57" data-volume="0.2" data-track-index="16"></audio>
-      <audio id="sfx-exit2" src="assets/sfx/whoosh-short.mp3" data-start="5.47" data-duration="0.57" data-volume="0.18" data-track-index="17"></audio>
+      <audio id="sfx-exit2" src="assets/sfx/whoosh-short.mp3" data-start="5.3" data-duration="0.57" data-volume="0.18" data-track-index="17"></audio>
       <audio id="sfx-node1" src="assets/sfx/pop.mp3" data-start="6.22" data-duration="0.72" data-volume="0.16" data-track-index="18"></audio>
       <audio id="sfx-node2" src="assets/sfx/pop.mp3" data-start="6.67" data-duration="0.72" data-volume="0.16" data-track-index="19"></audio>
       <audio id="sfx-node3" src="assets/sfx/pop.mp3" data-start="7.12" data-duration="0.72" data-volume="0.16" data-track-index="20"></audio>
       <audio id="sfx-node4" src="assets/sfx/pop.mp3" data-start="7.57" data-duration="0.72" data-volume="0.16" data-track-index="21"></audio>
       <audio id="sfx-node5" src="assets/sfx/pop.mp3" data-start="8.02" data-duration="0.72" data-volume="0.16" data-track-index="22"></audio>
-      <audio id="sfx-whip" src="assets/sfx/whoosh.mp3" data-start="8.58" data-duration="0.57" data-volume="0.22" data-track-index="23"></audio>
+      <audio id="sfx-whip" src="assets/sfx/whoosh.mp3" data-start="8.47" data-duration="0.57" data-volume="0.22" data-track-index="23"></audio>
       <audio id="sfx-tiles" src="assets/sfx/whoosh-short.mp3" data-start="8.95" data-duration="0.57" data-volume="0.16" data-track-index="24"></audio>
       <audio id="sfx-stats" src="assets/sfx/ping.mp3" data-start="10.35" data-duration="1.32" data-volume="0.18" data-track-index="25"></audio>
-      <audio id="sfx-wipe" src="assets/sfx/whoosh.mp3" data-start="11.62" data-duration="0.57" data-volume="0.26" data-track-index="26"></audio>
-      <audio id="sfx-logo" src="assets/sfx/impact-bass-1.mp3" data-start="12.0" data-duration="2.12" data-volume="0.32" data-track-index="27"></audio>
-      <audio id="sfx-cta" src="assets/sfx/sparkle.mp3" data-start="12.85" data-duration="1.8" data-volume="0.16" data-track-index="28"></audio>
-      <audio id="sfx-press" src="assets/sfx/click.mp3" data-start="13.7" data-duration="0.37" data-volume="0.26" data-track-index="29"></audio>
+      <audio id="sfx-wipe" src="assets/sfx/whoosh.mp3" data-start="11.5" data-duration="0.57" data-volume="0.26" data-track-index="26"></audio>
+      <audio id="sfx-logo" src="assets/sfx/impact-bass-1.mp3" data-start="12.2" data-duration="2.12" data-volume="0.32" data-track-index="27"></audio>
+      <audio id="sfx-cta" src="assets/sfx/sparkle.mp3" data-start="13.25" data-duration="1.8" data-volume="0.16" data-track-index="28"></audio>
+      <audio id="sfx-press" src="assets/sfx/click.mp3" data-start="13.85" data-duration="0.37" data-volume="0.26" data-track-index="29"></audio>
+      <audio id="sfx-morph1" src="assets/sfx/whoosh-short.mp3" data-start="2.18" data-duration="0.57" data-volume="0.2" data-track-index="30"></audio>
+      <audio id="sfx-morph5" src="assets/sfx/whoosh-short.mp3" data-start="12.8" data-duration="0.57" data-volume="0.18" data-track-index="31"></audio>
     </div>
 
     <script>
@@ -976,11 +984,12 @@
       tl.to("#s1a .w", { yPercent: -110, duration: 0.22, ease: "power3.in", stagger: 0.04 }, 1.3);
       tl.fromTo("#s1b .w", { yPercent: 110 }, { yPercent: 0, duration: 0.5, ease: "back.out(1.6)", stagger: 0.08 }, 1.45);
       tl.fromTo("#s1b", { scale: 1, transformOrigin: "0% 50%" }, { scale: 1.05, duration: 1.0, ease: "power1.in" }, 1.6);
-      tl.to("#s1Rule", { scaleX: 0, transformOrigin: "100% 50%", duration: 0.25, ease: "power2.in" }, 2.33);
+      tl.to("#s1b .w", { yPercent: -110, duration: 0.25, ease: "power3.in", stagger: 0.04 }, 2.1);
+      tl.to("#s1Kicker", { opacity: 0, duration: 0.2, ease: "power1.in" }, 2.1);
 
       // ---------- S2: prompt -> programs (2.6 – 5.7) ----------
       const promptLift = 139; // centred alone vs. resting above the cards
-      tl.fromTo("#prompt", { y: promptLift + 40, scale: 0.92, opacity: 0 }, { y: promptLift, scale: 1, opacity: 1, duration: 0.45, ease: "expo.out" }, 2.68);
+      tl.fromTo("#prompt", { y: promptLift, opacity: 0 }, { y: promptLift, opacity: 1, duration: 0.18, ease: "power1.out" }, 2.74);
       const chars = gsap.utils.toArray("#ptext .ch");
       chars.forEach((c, i) => tl.fromTo(c, { display: "none" }, { display: "inline", duration: 0.001, ease: "none" }, 2.95 + i * 0.03));
       tl.fromTo("#caret", { opacity: 1 }, { opacity: 0, duration: 0.08, ease: "none" }, 3.95);
@@ -989,12 +998,12 @@
       tl.to("#prompt", { y: 0, duration: 0.5, ease: "power3.inOut" }, 4.1);
       tl.fromTo(".pcard", { y: 90, opacity: 0, rotationX: -18, transformPerspective: 1000 }, { y: 0, opacity: 1, rotationX: 0, duration: 0.6, ease: "expo.out", stagger: 0.1 }, 4.3);
       tl.fromTo(".pcard-edge", { scaleX: 0 }, { scaleX: 1, duration: 0.7, ease: "power2.out", stagger: 0.1 }, 4.5);
-      tl.to("#s2Stage", { scale: 1.08, opacity: 0, duration: 0.22, ease: "power2.in" }, 5.47);
+      tl.to(".pcard", { opacity: 0, y: 40, duration: 0.25, ease: "power2.in", stagger: 0.04 }, 5.3);
 
       // ---------- S3: 5-stage rail (5.7 – 8.8) ----------
       tl.fromTo("#s3Kicker", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.45, ease: "power3.out" }, 5.75);
       tl.fromTo("#s3Title .w", { yPercent: 115 }, { yPercent: 0, duration: 0.55, ease: "expo.out", stagger: 0.07 }, 5.78);
-      tl.fromTo(".node", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: "power3.out", stagger: 0.06 }, 5.95);
+      tl.fromTo(".node", { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "power2.out", stagger: 0.06 }, 5.95);
       tl.fromTo(".chip", { scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, ease: "back.out(2.2)", stagger: 0.08 }, 6.1);
       tl.fromTo("#railFill", { scaleX: 0 }, { scaleX: 1, duration: 1.85, ease: "power1.inOut" }, 6.22);
       gsap.utils.toArray(".node-on").forEach((el, i) => {
@@ -1011,7 +1020,7 @@
       tl.fromTo("#s4Title .w", { yPercent: 115 }, { yPercent: 0, duration: 0.5, ease: "expo.out", stagger: 0.06 }, 8.85);
       tl.fromTo(".tile", { y: 70, opacity: 0, scale: 0.94 }, { y: 0, opacity: 1, scale: 1, duration: 0.55, ease: "power4.out", stagger: 0.08 }, 8.95);
       tl.fromTo(".tile-edge", { scaleX: 0 }, { scaleX: 1, duration: 1.0, ease: "power2.out", stagger: 0.08 }, 9.1);
-      tl.fromTo("#award", { opacity: 0, scale: 0.85 }, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)" }, 9.2);
+      tl.fromTo("#award", { opacity: 0 }, { opacity: 1, duration: 0.2, ease: "power1.out" }, 9.12);
       gsap.utils.toArray(".count").forEach((el, i) => {
         const to = parseFloat(el.dataset.to);
         const dec = parseInt(el.dataset.dec, 10);
@@ -1033,31 +1042,99 @@
       tl.fromTo("#marquee", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "none" }, 9.2);
       tl.fromTo("#marqueeRow", { x: 0 }, { x: -1100, duration: 2.75, ease: "none" }, 9.2);
 
-      // ---------- wipe (11.65 – 12.45) ----------
-      tl.fromTo("#wipePanel", { xPercent: -100 }, { xPercent: 0, duration: 0.3, ease: "power3.in" }, 11.65);
-      tl.to("#wipePanel", { xPercent: 100, duration: 0.45, ease: "expo.out" }, 11.97);
-
       // ---------- S5: lockup (11.95 – 15) ----------
       tl.fromTo("#s5Glow", { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 1.4, ease: "power2.out" }, 12.0);
       // Official logo: a glowing blade slices across and reveals it, landing on the bass hit.
-      tl.fromTo("#logoWrap", { scale: 0.88 }, { scale: 1, duration: 0.8, ease: "back.out(1.7)" }, 12.0);
-      // The reveal edge leans like the blade (skewX -18deg ≈ ±8.8% of the logo width top-to-bottom).
+      tl.fromTo("#logoWrap", { scale: 0.88 }, { scale: 1, duration: 0.8, ease: "back.out(1.7)" }, 12.17);
+      // The reveal edge leans like the blade (skewX -18deg ≈ ±8.6% of the logo width top-to-bottom).
       tl.fromTo(
         "#logoImg",
-        { clipPath: "polygon(-20% 0%, 8.8% 0%, -8.8% 100%, -20% 100%)" },
-        { clipPath: "polygon(-20% 0%, 118.8% 0%, 101.2% 100%, -20% 100%)", duration: 0.6, ease: "power3.inOut" },
-        12.03,
+        { clipPath: "polygon(-20% 0%, 8.6% 0%, -8.6% 100%, -20% 100%)" },
+        { clipPath: "polygon(-20% 0%, 118.6% 0%, 101.4% 100%, -20% 100%)", duration: 0.6, ease: "power3.inOut" },
+        12.2,
       );
-      tl.fromTo("#logoBlade", { x: -4, skewX: -18, opacity: 1 }, { x: 898, skewX: -18, duration: 0.6, ease: "power3.inOut" }, 12.03);
-      tl.to("#logoBlade", { opacity: 0, duration: 0.18, ease: "power1.out" }, 12.5);
+      tl.fromTo("#logoBlade", { x: -4, skewX: -18, opacity: 1 }, { x: 920, skewX: -18, duration: 0.6, ease: "power3.inOut" }, 12.2);
+      tl.set("#logoBlade", { opacity: 0 }, 12.8);
       tl.fromTo("#s5Divider", { scaleY: 0 }, { scaleY: 1, duration: 0.6, ease: "power3.out" }, 12.35);
-      tl.fromTo("#s5Kicker", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, 12.4);
-      tl.fromTo("#s5Tag .w", { yPercent: 115 }, { yPercent: 0, duration: 0.6, ease: "expo.out", stagger: 0.05 }, 12.45);
-      tl.fromTo("#cta", { scale: 0.7, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, ease: "back.out(2.2)" }, 12.85);
-      tl.fromTo("#url", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.45, ease: "power2.out" }, 13.0);
-      tl.to("#cta", { scale: 0.95, duration: 0.1, ease: "power2.in" }, 13.7);
-      tl.to("#cta", { scale: 1, duration: 0.5, ease: "elastic.out(1, 0.5)" }, 13.8);
+      tl.fromTo("#s5Kicker", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, 12.92);
+      tl.fromTo("#s5Tag .w", { yPercent: 115 }, { yPercent: 0, duration: 0.6, ease: "expo.out", stagger: 0.05 }, 12.95);
+      tl.fromTo("#cta", { opacity: 0 }, { opacity: 1, duration: 0.14, ease: "power1.out" }, 13.24);
+      tl.fromTo("#url", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.45, ease: "power2.out" }, 13.35);
+      tl.fromTo("#cta", { scale: 1 }, { scale: 0.95, duration: 0.1, ease: "power2.in" }, 13.85);
+      tl.to("#cta", { scale: 1, duration: 0.5, ease: "elastic.out(1, 0.5)" }, 13.95);
       tl.fromTo("#s5Wrap", { scale: 1 }, { scale: 1.03, duration: 3.05, ease: "sine.out" }, 11.95);
+
+
+      // ---------- morph thread (one shape, five forms) ----------
+      // Every form is the same 8-segment rounded quad, so MorphSVG interpolates point-for-point.
+      // Rects are measured on-screen geometry of the element each form hands off to.
+      gsap.registerPlugin(MorphSVGPlugin);
+      const K = 0.5523;
+      const SKEW = Math.tan((18 * Math.PI) / 180); // matches the logo blade's skewX(-18deg)
+      function quad(cx, cy, w, h, r, skew = 0) {
+        r = Math.min(r, w / 2, h / 2);
+        const x = cx - w / 2, y = cy - h / 2, k = r * K;
+        const P = (px, py) => `${(px - skew * (py - cy)).toFixed(2)},${py.toFixed(2)}`;
+        return (
+          `M${P(x + r, y)} L${P(x + w - r, y)} C${P(x + w - r + k, y)} ${P(x + w, y + r - k)} ${P(x + w, y + r)} ` +
+          `L${P(x + w, y + h - r)} C${P(x + w, y + h - r + k)} ${P(x + w - r + k, y + h)} ${P(x + w - r, y + h)} ` +
+          `L${P(x + r, y + h)} C${P(x + r - k, y + h)} ${P(x, y + h - r + k)} ${P(x, y + h - r)} ` +
+          `L${P(x, y + r)} C${P(x, y + r - k)} ${P(x + r - k, y)} ${P(x + r, y)} Z`
+        );
+      }
+      const SHAPE = {
+        rule: quad(960, 703.5, 1600, 3, 1.5),
+        prompt: quad(960, 537, 1200, 176, 32),
+        promptTop: quad(960, 398, 1200, 176, 32),
+        step1: quad(172, 605.5, 64, 64, 32),
+        step5: quad(1748, 605.5, 64, 64, 32),
+        award: quad(1564.2, 310.8, 431.6, 60, 30),
+        cover: quad(960, 540, 2240, 1360, 0),
+        bladeIn: quad(138, 540, 7, 464, 3.5, SKEW),
+        bladeOut: quad(1025.7, 540, 8.2, 524.5, 4, SKEW),
+        cta: quad(1301.3, 638.8, 431.2, 85.8, 42.9),
+      };
+      const BLUE = "#2563eb", CARD = "#0f1219", BADGE = "#132a63", WHITE = "#ffffff";
+      const morph = (from, to, t, dur, ease) =>
+        tl.fromTo("#mp", { morphSVG: { shape: from, shapeIndex: 0 } }, { morphSVG: { shape: to, shapeIndex: 0 }, duration: dur, ease }, t);
+      const show = (t, fill) => tl.set("#mp", { opacity: 1, fill }, t);
+      const hide = (t, d = 0.1) => tl.to("#mp", { opacity: 0, duration: d, ease: "power1.out" }, t);
+      tl.set("#mp", { attr: { d: SHAPE.rule } }, 0);
+
+      // 1 · underline swells into the prompt box
+      tl.set("#s1Rule", { opacity: 0 }, 2.2);
+      show(2.2, BLUE);
+      morph(SHAPE.rule, SHAPE.prompt, 2.2, 0.6, "power4.inOut");
+      tl.to("#mp", { fill: CARD, duration: 0.3, ease: "power1.inOut" }, 2.48);
+      hide(2.86);
+
+      // 2 · prompt box collapses into step 01 of the rollout rail
+      show(5.3, CARD);
+      tl.set("#prompt", { opacity: 0 }, 5.3);
+      morph(SHAPE.promptTop, SHAPE.step1, 5.33, 0.62, "power3.inOut");
+      tl.to("#mp", { fill: BLUE, duration: 0.35, ease: "power1.inOut" }, 5.45);
+      hide(6.22, 0.12);
+
+      // 3 · step 05 lifts into the award badge
+      show(8.45, BLUE);
+      morph(SHAPE.step5, SHAPE.award, 8.5, 0.65, "expo.inOut");
+      tl.to("#mp", { fill: BADGE, duration: 0.25, ease: "power1.inOut" }, 8.92);
+      hide(9.22, 0.12);
+
+      // 4 · badge floods the frame, then snaps into the blade that cuts in the logo
+      show(11.5, BADGE);
+      tl.set("#award", { opacity: 0 }, 11.5);
+      morph(SHAPE.award, SHAPE.cover, 11.5, 0.42, "power3.in");
+      tl.to("#mp", { fill: BLUE, duration: 0.2, ease: "none" }, 11.5);
+      morph(SHAPE.cover, SHAPE.bladeIn, 11.92, 0.28, "power4.inOut");
+      tl.to("#mp", { fill: WHITE, duration: 0.18, ease: "none" }, 12.02);
+      tl.set("#mp", { opacity: 0 }, 12.2);
+
+      // 5 · the blade, done cutting, reshapes into the CTA
+      show(12.8, WHITE);
+      morph(SHAPE.bladeOut, SHAPE.cta, 12.8, 0.5, "expo.inOut");
+      tl.to("#mp", { fill: BLUE, duration: 0.3, ease: "power1.inOut" }, 12.95);
+      hide(13.32);
 
       window.__timelines["main"] = tl;
       tl.seek(0);
