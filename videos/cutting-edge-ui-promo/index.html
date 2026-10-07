@@ -1,0 +1,742 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>Cutting Edge School — UI Motion Promo</title>
+    <script src="assets/vendor/gsap.min.js"></script>
+    <style>
+      @font-face {
+        font-family: "Inter Display";
+        src: url("fonts/InterDisplay-Bold.otf") format("opentype");
+        font-weight: 700;
+      }
+      @font-face {
+        font-family: "Inter";
+        src: url("fonts/Inter-Medium.otf") format("opentype");
+        font-weight: 500;
+      }
+      @font-face {
+        font-family: "Inter";
+        src: url("fonts/Inter-SemiBold.otf") format("opentype");
+        font-weight: 600;
+      }
+      @font-face {
+        font-family: "JetBrains Mono";
+        src: url("fonts/JetBrainsMono-500.woff2") format("woff2");
+        font-weight: 500;
+      }
+
+      :root {
+        --bg: #0c0d10;
+        --surface: #17181d;
+        --surface-2: #1f2026;
+        --track: #2b2d33;
+        --line: rgba(255, 255, 255, 0.08);
+        --ink: #f3f4f6;
+        --mute: #8b8f9a;
+        --blue: #2563eb;
+        --blue-hi: #4d8bff;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: var(--bg);
+      }
+      #root {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: "Inter", sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+      .scene {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+      .display {
+        font-family: "Inter Display", sans-serif;
+        font-weight: 700;
+        letter-spacing: -0.045em;
+        line-height: 1;
+        white-space: nowrap;
+      }
+      .mono {
+        font-family: "JetBrains Mono", monospace;
+        font-weight: 500;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      .m {
+        display: inline-block;
+        overflow: hidden;
+        vertical-align: top;
+        padding: 0.06em 0.03em 0.14em;
+        margin-bottom: -0.14em;
+      }
+      .w {
+        display: inline-block;
+      }
+      .blue {
+        color: var(--blue-hi);
+      }
+
+      /* ---------- the canvas the camera flies over ---------- */
+      #world {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1px;
+        height: 1px;
+      }
+      .dots {
+        position: absolute;
+        left: -2400px;
+        top: -1800px;
+        width: 7400px;
+        height: 6200px;
+        background-image: radial-gradient(circle, rgba(255, 255, 255, 0.13) 2.2px, transparent 2.6px);
+        background-size: 64px 64px;
+      }
+      .abs {
+        position: absolute;
+      }
+
+      /* A · toggle */
+      #textA {
+        left: -1240px;
+        top: -150px;
+        width: 1200px;
+        text-align: right;
+        font-size: 150px;
+      }
+      .toggle {
+        position: absolute;
+        width: 330px;
+        height: 184px;
+        border-radius: 92px;
+        background: var(--track);
+        box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.5);
+      }
+      .toggle-fill {
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        background: var(--blue);
+        box-shadow: 0 0 60px rgba(37, 99, 235, 0.55);
+      }
+      .knob {
+        position: absolute;
+        left: 12px;
+        top: 12px;
+        width: 160px;
+        height: 160px;
+        border-radius: 50%;
+        background: radial-gradient(circle at 35% 30%, #ffffff, #e9eaee 70%);
+        box-shadow:
+          0 10px 24px rgba(0, 0, 0, 0.45),
+          0 2px 4px rgba(0, 0, 0, 0.3);
+      }
+      #toggleA {
+        left: 20px;
+        top: -20px;
+      }
+
+      /* B · slider */
+      #textB {
+        left: 2050px;
+        top: -340px;
+        font-size: 150px;
+      }
+      #sliderTrack,
+      #sliderFill {
+        left: 2050px;
+        top: 40px;
+        width: 1100px;
+        height: 18px;
+        border-radius: 9px;
+      }
+      #sliderTrack {
+        background: var(--track);
+      }
+      #sliderFill {
+        background: linear-gradient(90deg, var(--blue), var(--blue-hi));
+        box-shadow: 0 0 30px rgba(77, 139, 255, 0.6);
+        transform-origin: left center;
+      }
+      #sliderKnob {
+        left: 2014px;
+        top: 13px;
+        width: 72px;
+        height: 72px;
+        border-radius: 50%;
+        background: radial-gradient(circle at 35% 30%, #ffffff, #e9eaee 70%);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+      }
+      .tick {
+        position: absolute;
+        top: 92px;
+        width: 4px;
+        height: 26px;
+        margin-left: -2px;
+        border-radius: 2px;
+        background: #3a3c43;
+      }
+      .tick-label {
+        position: absolute;
+        top: 136px;
+        width: 360px;
+        margin-left: -180px;
+        text-align: center;
+        font-size: 34px;
+        font-weight: 600;
+        color: #5d616b;
+      }
+
+      /* C · chips */
+      #textC {
+        left: 1900px;
+        top: 1030px;
+        font-size: 150px;
+      }
+      .chip {
+        position: absolute;
+        top: 1260px;
+        width: 440px;
+        height: 130px;
+        border-radius: 65px;
+        background: var(--surface);
+        border: 2px solid var(--line);
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        padding-left: 30px;
+        font-size: 42px;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+        overflow: hidden;
+      }
+      .chip-on {
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        background: var(--blue);
+        box-shadow: 0 0 50px rgba(37, 99, 235, 0.5);
+      }
+      .chip-check {
+        position: relative;
+        flex: none;
+        width: 66px;
+        height: 66px;
+        border-radius: 50%;
+        border: 3px solid #4a4d55;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .chip-check-fill {
+        position: absolute;
+        inset: -3px;
+        border-radius: 50%;
+        background: #ffffff;
+      }
+      .chip-check svg {
+        position: relative;
+      }
+      .chip-check polyline {
+        stroke-dasharray: 40;
+        stroke-dashoffset: 40;
+      }
+      .chip-label {
+        position: relative;
+      }
+
+      /* D · notifications */
+      #textD {
+        left: -780px;
+        top: 1170px;
+        font-size: 150px;
+      }
+      .note {
+        position: absolute;
+        left: 40px;
+        top: 1060px;
+        width: 800px;
+        height: 160px;
+        border-radius: 40px;
+        background: rgba(30, 31, 37, 0.96);
+        border: 1px solid rgba(255, 255, 255, 0.09);
+        box-shadow: 0 30px 70px rgba(0, 0, 0, 0.55);
+        display: flex;
+        align-items: center;
+        gap: 28px;
+        padding: 0 36px 0 30px;
+      }
+      .note-icon {
+        flex: none;
+        width: 92px;
+        height: 92px;
+        border-radius: 24px;
+        background: #000000 url("assets/brand/logo.png") center / 76% no-repeat;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .note-body {
+        flex: 1;
+        min-width: 0;
+      }
+      .note-top {
+        display: flex;
+        justify-content: space-between;
+        font-size: 22px;
+        color: var(--mute);
+        margin-bottom: 8px;
+      }
+      .note-text {
+        font-size: 33px;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+        white-space: nowrap;
+      }
+
+      /* E · CTA */
+      #textE {
+        left: -1040px;
+        top: 2230px;
+        width: 2000px;
+        text-align: center;
+        font-size: 140px;
+      }
+      #ctaBtn {
+        left: -510px;
+        top: 2455px;
+        width: 940px;
+        height: 210px;
+        border-radius: 105px;
+        background: var(--blue);
+        box-shadow:
+          0 0 0 2px rgba(255, 255, 255, 0.12) inset,
+          0 30px 80px rgba(37, 99, 235, 0.45);
+        overflow: hidden;
+      }
+      #ctaLabel {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 24px;
+        font-size: 64px;
+        font-weight: 600;
+        letter-spacing: -0.02em;
+      }
+      #ripple {
+        position: absolute;
+        left: 470px;
+        top: 105px;
+        width: 120px;
+        height: 120px;
+        margin: -60px 0 0 -60px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.35);
+      }
+      #urlE {
+        left: -1040px;
+        top: 2720px;
+        width: 2000px;
+        text-align: center;
+        font-size: 26px;
+        color: var(--mute);
+      }
+
+      /* cursor (tip at its own 0,0) */
+      #cursor {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1px;
+        height: 1px;
+      }
+      #cursorArt {
+        position: absolute;
+        left: -4px;
+        top: -3px;
+        filter: drop-shadow(0 8px 10px rgba(0, 0, 0, 0.5));
+      }
+
+      .vignette {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(ellipse 80% 75% at 50% 50%, transparent 55%, rgba(0, 0, 0, 0.55) 100%);
+        pointer-events: none;
+      }
+
+      /* end card */
+      #endBg {
+        position: absolute;
+        inset: 0;
+        background: var(--blue);
+      }
+      #endWrap {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      #endLogo {
+        width: 700px;
+        height: 370px;
+        background: url("assets/brand/logo.png") center / contain no-repeat;
+      }
+      #endTag {
+        margin-top: 44px;
+        font-size: 64px;
+      }
+      #endRow {
+        margin-top: 46px;
+        display: flex;
+        align-items: center;
+        gap: 22px;
+      }
+      #endUrl {
+        height: 64px;
+        padding: 0 30px;
+        border-radius: 32px;
+        background: rgba(255, 255, 255, 0.16);
+        display: flex;
+        align-items: center;
+        font-size: 24px;
+        color: #ffffff;
+      }
+      #endToggle {
+        position: relative;
+        width: 112px;
+        height: 64px;
+        border-radius: 32px;
+        background: rgba(255, 255, 255, 0.22);
+      }
+      #endToggleFill {
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        background: #ffffff;
+      }
+      #endKnob {
+        position: absolute;
+        left: 6px;
+        top: 6px;
+        width: 52px;
+        height: 52px;
+        border-radius: 50%;
+        background: #ffffff;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="15"
+      data-fps="60"
+      data-width="1920"
+      data-height="1080"
+    >
+      <!-- One continuous canvas; a camera glides between five stations -->
+      <section id="canvas" class="clip scene" data-start="0" data-duration="11.95" data-track-index="0">
+        <div id="world" data-layout-allow-overflow>
+          <div class="dots"></div>
+
+          <!-- A · toggle -->
+          <div id="textA" class="abs display">
+            <div><span class="m"><span class="w">Switch</span></span> <span class="m"><span class="w">your</span></span></div>
+            <div><span class="m"><span class="w">team</span></span> <span class="m"><span class="w">to</span></span> <span class="m"><span class="w blue">AI</span></span></div>
+          </div>
+          <div id="toggleA" class="toggle">
+            <div class="toggle-fill" id="toggleAFill"></div>
+            <div class="knob" id="knobA"></div>
+          </div>
+
+          <!-- B · slider -->
+          <div id="textB" class="abs display"><span class="m"><span class="w">Level</span></span> <span class="m"><span class="w blue">up.</span></span></div>
+          <div id="sliderTrack" class="abs"></div>
+          <div id="sliderFill" class="abs"></div>
+          <div class="tick" id="tick1" style="left: 2050px"></div>
+          <div class="tick" id="tick2" style="left: 2416.67px"></div>
+          <div class="tick" id="tick3" style="left: 2783.33px"></div>
+          <div class="tick" id="tick4" style="left: 3150px"></div>
+          <div class="tick-label" id="tickl1" style="left: 2050px">Beginner</div>
+          <div class="tick-label" id="tickl2" style="left: 2416.67px">Practitioner</div>
+          <div class="tick-label" id="tickl3" style="left: 2783.33px">Expert</div>
+          <div class="tick-label" id="tickl4" style="left: 3150px">AI Champion</div>
+          <div id="sliderKnob" class="abs"></div>
+
+          <!-- C · chips -->
+          <div id="textC" class="abs display"><span class="m"><span class="w">Every</span></span> <span class="m"><span class="w blue">team.</span></span></div>
+          <div class="chip" id="chip1" style="left: 1900px">
+            <div class="chip-on"></div>
+            <div class="chip-check">
+              <div class="chip-check-fill"></div>
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="5 12.5 10 17 19 7.5" /></svg>
+            </div>
+            <div class="chip-label">Operations</div>
+          </div>
+          <div class="chip" id="chip2" style="left: 2380px">
+            <div class="chip-on"></div>
+            <div class="chip-check">
+              <div class="chip-check-fill"></div>
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="5 12.5 10 17 19 7.5" /></svg>
+            </div>
+            <div class="chip-label">Marketing</div>
+          </div>
+          <div class="chip" id="chip3" style="left: 2860px">
+            <div class="chip-on"></div>
+            <div class="chip-check">
+              <div class="chip-check-fill"></div>
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="5 12.5 10 17 19 7.5" /></svg>
+            </div>
+            <div class="chip-label">Sales</div>
+          </div>
+
+          <!-- D · notifications (DOM order = stacking: newest on top) -->
+          <div id="textD" class="abs display">
+            <div><span class="m"><span class="w">Real</span></span></div>
+            <div><span class="m"><span class="w blue">results.</span></span></div>
+          </div>
+          <div class="note" id="note1">
+            <div class="note-icon"></div>
+            <div class="note-body">
+              <div class="note-top mono"><span>Cutting Edge School</span><span>now</span></div>
+              <div class="note-text">AI Leadership Alignment: confirmed</div>
+            </div>
+          </div>
+          <div class="note" id="note2">
+            <div class="note-icon"></div>
+            <div class="note-body">
+              <div class="note-top mono"><span>Cutting Edge School</span><span>now</span></div>
+              <div class="note-text">Your team finished hands-on training</div>
+            </div>
+          </div>
+          <div class="note" id="note3">
+            <div class="note-icon"></div>
+            <div class="note-body">
+              <div class="note-top mono"><span>Cutting Edge School</span><span>now</span></div>
+              <div class="note-text">New AI Champion unlocked ✦</div>
+            </div>
+          </div>
+
+          <!-- E · CTA -->
+          <div id="textE" class="abs display"><span class="m"><span class="w">Ready</span></span> <span class="m"><span class="w">to</span></span> <span class="m"><span class="w blue">evolve?</span></span></div>
+          <div id="ctaBtn" class="abs">
+            <div id="ripple"></div>
+            <div id="ctaLabel">
+              Enquire for Trainings
+              <svg width="58" height="58" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+            </div>
+          </div>
+          <div id="urlE" class="abs mono">cuttingedge.school</div>
+
+          <!-- cursor -->
+          <div id="cursor">
+            <svg id="cursorArt" width="58" height="80" viewBox="0 0 29 40">
+              <path d="M2 2 L2 31 L9.6 24.2 L14.6 36 L19.6 33.8 L14.6 22.4 L25 22.4 Z" fill="#0a0a0a" stroke="#ffffff" stroke-width="2.4" stroke-linejoin="round" />
+            </svg>
+          </div>
+        </div>
+      </section>
+
+      <!-- End card: the CTA's blue becomes the frame -->
+      <section id="end" class="clip scene" data-start="11.9" data-duration="3.1" data-track-index="1">
+        <div id="endBg"></div>
+        <div id="endWrap">
+          <div id="endLogo" role="img" aria-label="The Cutting Edge School"></div>
+          <div id="endTag" class="display">
+            <span class="m"><span class="w">AI</span></span>
+            <span class="m"><span class="w">Trainings</span></span>
+            <span class="m"><span class="w">for</span></span>
+            <span class="m"><span class="w">Leadership</span></span>
+            <span class="m"><span class="w">&amp;</span></span>
+            <span class="m"><span class="w">Teams</span></span>
+          </div>
+          <div id="endRow">
+            <div id="endUrl" class="mono">cuttingedge.school</div>
+            <div id="endToggle">
+              <div id="endToggleFill"></div>
+              <div id="endKnob"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div id="vig" class="clip scene" data-start="0" data-duration="15" data-track-index="2">
+        <div class="vignette"></div>
+      </div>
+
+      <!-- SFX (bundled HyperFrames/Pixabay library), kept low -->
+      <audio id="sfx-enter" src="assets/sfx/whoosh-short.mp3" data-start="0.35" data-duration="0.57" data-volume="0.14" data-track-index="10"></audio>
+      <audio id="sfx-toggle" src="assets/sfx/click.mp3" data-start="1.08" data-duration="0.37" data-volume="0.32" data-track-index="11"></audio>
+      <audio id="sfx-pull" src="assets/sfx/whoosh.mp3" data-start="1.6" data-duration="0.57" data-volume="0.16" data-track-index="12"></audio>
+      <audio id="sfx-panB" src="assets/sfx/whoosh-short.mp3" data-start="2.9" data-duration="0.57" data-volume="0.2" data-track-index="13"></audio>
+      <audio id="sfx-grab" src="assets/sfx/click-soft.mp3" data-start="3.7" data-duration="0.37" data-volume="0.26" data-track-index="14"></audio>
+      <audio id="sfx-tick2" src="assets/sfx/key-press.mp3" data-start="4.25" data-duration="0.4" data-volume="0.22" data-track-index="15"></audio>
+      <audio id="sfx-tick3" src="assets/sfx/key-press.mp3" data-start="4.45" data-duration="0.4" data-volume="0.22" data-track-index="16"></audio>
+      <audio id="sfx-tick4" src="assets/sfx/key-press.mp3" data-start="4.9" data-duration="0.4" data-volume="0.24" data-track-index="17"></audio>
+      <audio id="sfx-panC" src="assets/sfx/whoosh-short.mp3" data-start="5.1" data-duration="0.57" data-volume="0.2" data-track-index="18"></audio>
+      <audio id="sfx-chip1" src="assets/sfx/click.mp3" data-start="5.92" data-duration="0.37" data-volume="0.26" data-track-index="19"></audio>
+      <audio id="sfx-chip2" src="assets/sfx/click.mp3" data-start="6.32" data-duration="0.37" data-volume="0.26" data-track-index="20"></audio>
+      <audio id="sfx-chip3" src="assets/sfx/click.mp3" data-start="6.72" data-duration="0.37" data-volume="0.26" data-track-index="21"></audio>
+      <audio id="sfx-panD" src="assets/sfx/whoosh-short.mp3" data-start="7.2" data-duration="0.57" data-volume="0.2" data-track-index="22"></audio>
+      <audio id="sfx-note1" src="assets/sfx/notification.mp3" data-start="7.95" data-duration="1.2" data-volume="0.14" data-track-index="23"></audio>
+      <audio id="sfx-note2" src="assets/sfx/pop.mp3" data-start="8.4" data-duration="0.72" data-volume="0.2" data-track-index="24"></audio>
+      <audio id="sfx-note3" src="assets/sfx/pop.mp3" data-start="8.85" data-duration="0.72" data-volume="0.2" data-track-index="25"></audio>
+      <audio id="sfx-panE" src="assets/sfx/whoosh-short.mp3" data-start="9.9" data-duration="0.57" data-volume="0.2" data-track-index="26"></audio>
+      <audio id="sfx-press" src="assets/sfx/click.mp3" data-start="11.25" data-duration="0.37" data-volume="0.32" data-track-index="27"></audio>
+      <audio id="sfx-flood" src="assets/sfx/whoosh.mp3" data-start="11.45" data-duration="0.57" data-volume="0.24" data-track-index="28"></audio>
+      <audio id="sfx-logo" src="assets/sfx/impact-bass-1.mp3" data-start="11.98" data-duration="2.12" data-volume="0.3" data-track-index="29"></audio>
+      <audio id="sfx-shine" src="assets/sfx/sparkle.mp3" data-start="12.5" data-duration="1.8" data-volume="0.12" data-track-index="30"></audio>
+      <audio id="sfx-endtoggle" src="assets/sfx/click.mp3" data-start="13.4" data-duration="0.37" data-volume="0.26" data-track-index="31"></audio>
+    </div>
+
+    <script>
+      const tl = gsap.timeline({ paused: true });
+
+      // ---------- camera: world-space point (cx, cy) at screen centre, zoom s ----------
+      const cam = { cx: 185, cy: 72, s: 2.4 };
+      const world = document.getElementById("world");
+      const applyCam = () =>
+        gsap.set(world, { x: 960 - cam.cx * cam.s, y: 540 - cam.cy * cam.s, scale: cam.s, transformOrigin: "0px 0px" });
+      // Keys cover the whole canvas window back-to-back, so every seek lands inside a camera tween.
+      const KEYS = [
+        [0.0, { cx: 185, cy: 72, s: 2.4 }],
+        [1.6, { cx: 185, cy: 72, s: 2.25 }], // slow creep while the toggle is worked
+        [2.55, { cx: -225, cy: 10, s: 1.2 }], // pull back: the sentence appears
+        [2.9, { cx: -215, cy: 10, s: 1.21 }],
+        [3.65, { cx: 2600, cy: -82, s: 1.2 }], // whip-pan to the slider
+        [5.1, { cx: 2615, cy: -82, s: 1.22 }],
+        [5.8, { cx: 2600, cy: 1220, s: 1.15 }], // down to the chips
+        [7.2, { cx: 2615, cy: 1220, s: 1.17 }],
+        [7.85, { cx: 30, cy: 1320, s: 1.05 }], // across to notifications
+        [9.9, { cx: 45, cy: 1320, s: 1.07 }],
+        [10.6, { cx: -40, cy: 2490, s: 1.1 }], // down to the CTA
+        [10.95, { cx: -40, cy: 2540, s: 1.22 }], // lean in on the button
+        [11.95, { cx: -40, cy: 2555, s: 1.26 }],
+      ];
+      const MOVE = new Set([2, 4, 6, 8, 10, 11]); // keys reached by a deliberate move
+      for (let i = 1; i < KEYS.length; i++) {
+        const [t0, a] = KEYS[i - 1];
+        const [t1, b] = KEYS[i];
+        tl.fromTo(cam, { ...a }, { ...b, duration: t1 - t0, ease: MOVE.has(i) ? "expo.inOut" : "sine.inOut", onUpdate: applyCam }, t0);
+      }
+      applyCam();
+      // a touch of blur only while the camera is travelling fast
+      [[2.9, 0.75], [5.1, 0.7], [7.2, 0.65], [9.9, 0.7]].forEach(([t, d]) => {
+        tl.to(world, { filter: "blur(3px)", duration: d * 0.5, ease: "power2.in" }, t);
+        tl.to(world, { filter: "blur(0px)", duration: d * 0.5, ease: "power2.out" }, t + d * 0.5);
+      });
+
+      // ---------- cursor path (world coords; tip at the point) ----------
+      const C = "#cursor";
+      tl.fromTo(C, { x: 330, y: 300, opacity: 0 }, { x: 330, y: 300, opacity: 1, duration: 0.2, ease: "none" }, 0.3);
+      tl.to(C, { x: 118, y: 80, duration: 0.7, ease: "power3.out" }, 0.35);
+      const click = (t) => {
+        tl.to("#cursorArt", { scale: 0.86, duration: 0.07, ease: "power2.in", transformOrigin: "4px 3px" }, t);
+        tl.to("#cursorArt", { scale: 1, duration: 0.22, ease: "back.out(3)", transformOrigin: "4px 3px" }, t + 0.07);
+      };
+
+      // A · toggle on
+      click(1.05);
+      tl.fromTo("#knobA", { scaleX: 1, scaleY: 1 }, { scaleX: 1.12, scaleY: 0.92, duration: 0.07, ease: "power2.in" }, 1.05);
+      tl.to("#knobA", { x: 146, duration: 0.42, ease: "back.out(1.5)" }, 1.12);
+      tl.to("#knobA", { scaleX: 1, scaleY: 1, duration: 0.35, ease: "back.out(2)" }, 1.14);
+      tl.fromTo("#toggleAFill", { opacity: 0 }, { opacity: 1, duration: 0.25, ease: "power1.out" }, 1.12);
+      tl.to(C, { x: 118 + 146, duration: 0.42, ease: "back.out(1.5)" }, 1.12); // cursor rides the knob
+      tl.to(C, { x: 520, y: 420, opacity: 0, duration: 0.6, ease: "power2.in" }, 1.75);
+      tl.fromTo("#textA .w", { yPercent: 115, filter: "blur(10px)" }, { yPercent: 0, filter: "blur(0px)", duration: 0.7, ease: "expo.out", stagger: 0.06 }, 1.75);
+
+      // B · slider
+      tl.fromTo("#textB .w", { yPercent: 115, filter: "blur(10px)" }, { yPercent: 0, filter: "blur(0px)", duration: 0.7, ease: "expo.out", stagger: 0.08 }, 3.35);
+      tl.fromTo(C, { x: 1500, y: 360, opacity: 0 }, { x: 2058, y: 58, opacity: 1, duration: 0.55, ease: "power3.out" }, 3.15);
+      click(3.7);
+      tl.fromTo("#sliderKnob", { scale: 1 }, { scale: 1.18, duration: 0.15, ease: "power2.out" }, 3.7);
+      tl.to("#sliderKnob", { x: 1100, duration: 1.1, ease: "power1.inOut" }, 3.8);
+      tl.fromTo("#sliderFill", { scaleX: 0 }, { scaleX: 1, duration: 1.1, ease: "power1.inOut" }, 3.8);
+      tl.to(C, { x: 2058 + 1100, duration: 1.1, ease: "power1.inOut" }, 3.8);
+      tl.to("#sliderKnob", { scale: 1, duration: 0.3, ease: "back.out(2.5)" }, 4.92);
+      // ticks light as the knob passes them (power1.inOut crossing times)
+      [3.8, 4.25, 4.45, 4.9].forEach((t, i) => {
+        tl.fromTo(`#tick${i + 1}`, { backgroundColor: "#3a3c43" }, { backgroundColor: "#4d8bff", duration: 0.12, ease: "none" }, t);
+        tl.fromTo(`#tickl${i + 1}`, { color: "#5d616b", y: 0 }, { color: i === 3 ? "#4d8bff" : "#f3f4f6", y: -6, duration: 0.2, ease: "power2.out" }, t);
+      });
+      tl.to(C, { x: 3300, y: 380, opacity: 0, duration: 0.5, ease: "power2.in" }, 5.05);
+
+      // C · chips
+      tl.fromTo("#textC .w", { yPercent: 115, filter: "blur(10px)" }, { yPercent: 0, filter: "blur(0px)", duration: 0.7, ease: "expo.out", stagger: 0.08 }, 5.5);
+      const chipX = [2120, 2600, 3080];
+      tl.fromTo(C, { x: 1800, y: 1560, opacity: 0 }, { x: chipX[0], y: 1335, opacity: 1, duration: 0.45, ease: "power3.out" }, 5.45);
+      [5.9, 6.3, 6.7].forEach((t, i) => {
+        if (i > 0) tl.to(C, { x: chipX[i], y: 1335, duration: 0.3, ease: "power3.inOut" }, t - 0.32);
+        click(t);
+        const chip = `#chip${i + 1}`;
+        tl.fromTo(chip, { scale: 1 }, { scale: 0.94, duration: 0.07, ease: "power2.in" }, t);
+        tl.to(chip, { scale: 1, duration: 0.4, ease: "back.out(2.5)" }, t + 0.07);
+        tl.fromTo(`${chip} .chip-on`, { opacity: 0 }, { opacity: 1, duration: 0.2, ease: "power1.out" }, t + 0.03);
+        tl.fromTo(`${chip} .chip-check`, { borderColor: "#4a4d55" }, { borderColor: "#ffffff", duration: 0.1, ease: "none" }, t + 0.03);
+        tl.fromTo(`${chip} .chip-check-fill`, { scale: 0 }, { scale: 1, duration: 0.3, ease: "back.out(2.5)" }, t + 0.05);
+        tl.fromTo(`${chip} polyline`, { strokeDashoffset: 40 }, { strokeDashoffset: 0, duration: 0.25, ease: "power2.out" }, t + 0.15);
+      });
+      tl.to(C, { x: 3250, y: 1600, opacity: 0, duration: 0.45, ease: "power2.in" }, 6.95);
+
+      // D · notifications stack in, newest on top
+      tl.fromTo("#textD .w", { yPercent: 115, filter: "blur(10px)" }, { yPercent: 0, filter: "blur(0px)", duration: 0.7, ease: "expo.out", stagger: 0.08 }, 7.55);
+      const noteIn = (id, t) =>
+        tl.fromTo(id, { y: -90, opacity: 0, scale: 0.94, filter: "blur(8px)" }, { y: 0, opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.55, ease: "back.out(1.3)" }, t);
+      noteIn("#note1", 7.95);
+      noteIn("#note2", 8.4);
+      tl.to("#note1", { y: 180, duration: 0.45, ease: "power3.out" }, 8.4);
+      noteIn("#note3", 8.85);
+      tl.to("#note2", { y: 180, duration: 0.45, ease: "power3.out" }, 8.85);
+      tl.to("#note1", { y: 360, duration: 0.45, ease: "power3.out" }, 8.85);
+
+      // E · the button
+      tl.fromTo("#textE .w", { yPercent: 115, filter: "blur(10px)" }, { yPercent: 0, filter: "blur(0px)", duration: 0.7, ease: "expo.out", stagger: 0.07 }, 10.2);
+      tl.fromTo("#urlE", { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "power1.out" }, 10.5);
+      tl.fromTo(C, { x: 300, y: 2900, opacity: 0 }, { x: 60, y: 2590, opacity: 1, duration: 0.55, ease: "power3.out" }, 10.4);
+      tl.fromTo("#ctaBtn", { scale: 1 }, { scale: 1.035, duration: 0.3, ease: "power2.out" }, 10.9); // hover lift
+      click(11.25);
+      tl.to("#ctaBtn", { scale: 0.95, duration: 0.08, ease: "power2.in" }, 11.25);
+      tl.to("#ctaBtn", { scale: 1, duration: 0.12, ease: "power2.out" }, 11.33);
+      tl.fromTo("#ripple", { x: 80, y: 0, scale: 0, opacity: 1 }, { x: 80, y: 0, scale: 9, opacity: 0, duration: 0.5, ease: "power2.out" }, 11.28);
+      tl.to(C, { opacity: 0, duration: 0.15, ease: "none" }, 11.42);
+      // the button floods the frame and becomes the end card
+      tl.to("#ctaLabel", { opacity: 0, duration: 0.15, ease: "power1.in" }, 11.45);
+      tl.to("#ctaBtn", { scale: 7, duration: 0.5, ease: "power3.in" }, 11.45);
+
+      // ---------- end card ----------
+      tl.fromTo("#endLogo", { scale: 0.9, opacity: 0, filter: "blur(14px)" }, { scale: 1, opacity: 1, filter: "blur(0px)", duration: 0.8, ease: "expo.out" }, 11.98);
+      tl.fromTo("#endTag .w", { yPercent: 115, filter: "blur(10px)" }, { yPercent: 0, filter: "blur(0px)", duration: 0.65, ease: "expo.out", stagger: 0.05 }, 12.35);
+      tl.fromTo("#endRow", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 12.75);
+      tl.fromTo("#endToggleFill", { opacity: 0 }, { opacity: 1, duration: 0.2, ease: "power1.out" }, 13.42);
+      tl.fromTo("#endKnob", { x: 0, backgroundColor: "#ffffff" }, { x: 48, backgroundColor: "#2563eb", duration: 0.35, ease: "back.out(1.6)" }, 13.42);
+      tl.fromTo("#endWrap", { scale: 1 }, { scale: 1.03, duration: 3.1, ease: "sine.out" }, 11.9);
+
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>
