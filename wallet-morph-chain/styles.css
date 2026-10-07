@@ -1,0 +1,76 @@
+/* Wallet Morph Chain — static styles only. No transitions, no animations, no backdrop-filter.
+   Every animated property is written by src/seek.js. */
+
+@font-face { font-family: 'Inter'; font-weight: 400; src: url('fonts/Inter-Regular.otf') format('opentype'); }
+@font-face { font-family: 'Inter'; font-weight: 500; src: url('fonts/Inter-Medium.otf') format('opentype'); }
+@font-face { font-family: 'Inter'; font-weight: 600; src: url('fonts/Inter-SemiBold.otf') format('opentype'); }
+@font-face { font-family: 'Inter'; font-weight: 700; src: url('fonts/Inter-Bold.otf') format('opentype'); }
+
+* { box-sizing: border-box; margin: 0; padding: 0; letter-spacing: -0.02em; }
+
+html, body {
+  width: 1080px; height: 1080px; overflow: hidden;
+  background: #FFFFFF;
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: 'tnum' 0, 'cv11' 1;
+  color-scheme: light only;
+}
+
+#stage {
+  position: absolute; left: 0; top: 0; width: 1080px; height: 1080px; overflow: hidden;
+  /* static faint vignette */
+  background: radial-gradient(ellipse 78% 78% at 50% 50%, #FFFFFF 0%, #FFFFFF 46%, #F5F5F6 100%);
+  contain: strict;
+}
+
+#stack, .stack-card, #hero, #wallet-ui, #faceid, #icon-label, .bubble, #panel { position: absolute; }
+#stack { left: 0; top: 0; width: 1080px; height: 1080px; }
+.stack-card { left: 0; top: 0; }
+
+#hero { overflow: hidden; transform-origin: 50% 50%; }
+#icon-art, #map { position: absolute; left: 0; top: 0; width: 100%; height: 100%; display: block; }
+
+#faceid { left: 0; top: 0; overflow: visible; }
+
+#icon-label { left: 0; top: 0; white-space: nowrap; line-height: 1.2; }
+
+/* ── Wallet card content ── */
+#wallet-ui { overflow: hidden; color: #FFFFFF; }
+#wallet-ui > * { position: absolute; white-space: nowrap; line-height: 1; }
+.w-title { left: 52px; top: 52px; }
+.w-plus { right: 44px; top: 44px; width: 68px; height: 68px; }
+.w-plus svg, .w-bag svg { display: block; }
+.w-bag { left: 50px; top: 170px; width: 72px; height: 72px; }
+.w-bal-label { left: 142px; top: 168px; color: rgba(255, 255, 255, 0.62); }
+.w-bal { left: 140px; top: 200px; }
+.w-digit { display: inline-block; }
+.w-prog-label { left: 52px; top: 296px; color: rgba(255, 255, 255, 0.62); }
+.w-track { left: 52px; top: 338px; width: 803px; height: 14px; border-radius: 7px; background: rgba(255, 255, 255, 0.14); overflow: hidden; }
+.w-fill { position: absolute; left: 0; top: 0; height: 14px; border-radius: 7px; }
+.w-cc { left: 52px; top: 396px; width: 803px; height: 480px; }
+.w-cc svg { position: absolute; left: 0; top: 0; display: block; }
+.cc-kind, .cc-num { position: absolute; left: 48px; color: #FFFFFF; white-space: nowrap; line-height: 1; }
+.cc-kind { top: 52px; }
+.cc-num { top: 290px; }
+
+/* ── bubbles ── */
+.bubble { left: 0; top: 0; width: 0; height: 0; }
+.pill { position: absolute; overflow: hidden; border-radius: 999px; }
+.pill-in { position: absolute; display: flex; align-items: center; gap: 12px; padding: 0 22px 0 18px; height: 56px; color: #FFFFFF; white-space: nowrap; line-height: 1; }
+.b-dot { width: 14px; height: 14px; border-radius: 50%; flex: none; }
+.ptr { position: absolute; display: block; }
+
+/* ── stats panel ── */
+#panel { left: 0; top: 0; overflow: hidden; color: #FFFFFF; }
+.p-in { position: absolute; left: 0; top: 0; width: 100%; height: 100%; }
+.stats { position: absolute; left: 26px; top: 20px; display: flex; }
+.stat { width: 140px; }
+.s-lbl { line-height: 24px; color: rgba(255, 255, 255, 0.78); white-space: nowrap; }
+.s-val { line-height: 32px; white-space: nowrap; }
+.ctrl { position: absolute; left: 26px; top: 90px; width: 400px; height: 40px; }
+.play { position: absolute; left: 0; top: 0; width: 40px; height: 40px; transform-origin: 50% 50%; }
+.play svg { display: block; }
+.track { position: absolute; left: 58px; top: 17px; width: 342px; height: 6px; border-radius: 3px; background: rgba(255, 255, 255, 0.3); }
+.track-fill { position: absolute; left: 0; top: 0; height: 6px; border-radius: 3px; background: #FFFFFF; }
+.thumb { position: absolute; left: 0; top: -8px; width: 22px; height: 22px; border-radius: 50%; background: #FFFFFF; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18); }
