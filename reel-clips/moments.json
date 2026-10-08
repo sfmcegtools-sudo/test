@@ -1,0 +1,57 @@
+{
+  "source": "https://www.youtube.com/watch?v=Sm8pQocz_v0",
+  "source_duration_s": 2913.6,
+  "_note": "approx_start values are estimated from the transcript position. Run make_reels.py --locate to find the exact start/end from the audio, then confirm them here.",
+  "moments": [
+    {
+      "id": "01-ai-knows-you",
+      "title": "AI knows you better than your family",
+      "approx_start": 230,
+      "anchor_start": "prompt that I want you to fill",
+      "anchor_end": "psychology ko jaanta hai",
+      "start": null,
+      "end": null,
+      "script": "There is a prompt that I want you to fill once you go back home. Aap jo bhi app use kar rahe ho, chahe ChatGPT ho ya chahe Gemini ho, ask it to highlight your deepest darkest insecurities and fears and roast you. Aapko realize hoga ki aapke phone mein rakha AI tool aapke family members, aapke dost, aapke partner se zyada aapki psychology ko jaanta hai."
+    },
+    {
+      "id": "02-five-years-experience",
+      "title": "Only you will have 5 years of AI experience",
+      "approx_start": 330,
+      "anchor_start": "jin cheezon ko aap wow bolte ho",
+      "anchor_end": "isi saal aaya hai",
+      "start": null,
+      "end": null,
+      "script": "Aaj jin cheezon ko aap wow bolte ho, aaj se 5 saal baad woh bahut generic ho jaayega. But if you start learning things today, agar aaj aap AI ko seriously lete ho, five years later you will be the only people with five years of experience. Because subject naya hai. Aap koi bhi aur domain utha lo, marketing, finance, sales, there is always going to be somebody jisko aapse zyada experience hoga. But AI as a subject isi saal aaya hai."
+    },
+    {
+      "id": "03-health-reports",
+      "title": "Companies will ask for your health reports",
+      "approx_start": 580,
+      "anchor_start": "lot of people who will know AI",
+      "anchor_end": "about to get sick",
+      "start": null,
+      "end": null,
+      "script": "Five years from now you will have a lot of people who will know AI, coding, prompt engineering, but you will not have people who are healthy. And there is a big conspiracy theory that five years from now, all of these big companies are going to start asking for your health reports with your resume. Because nobody wants to bet on a talent that is about to get sick."
+    },
+    {
+      "id": "04-humans-think-like-ai",
+      "title": "The real crisis: humans thinking like AI",
+      "approx_start": 1320,
+      "anchor_start": "biggest crisis is going to be",
+      "anchor_end": "build on top of it",
+      "start": null,
+      "end": null,
+      "script": "They think that the biggest crisis is going to be any AI tool thinking like an average human. But a much bigger crisis is that five years later, any average human being starts to think like an AI tool. Main agar aaj aapse koi sawaal poochhun, toh aapke jawaab mein aur ChatGPT ke jawaab mein koi farak hi nahi hai. Aap khud hi ChatGPT ki tarah baatein karne lag gaye ho. And you can only avoid that when you use AI results as the baseline, and then use real intelligence to build on top of it."
+    },
+    {
+      "id": "05-desire-vs-deserve",
+      "title": "Desire vs deserve",
+      "approx_start": 1700,
+      "anchor_start": "they desire but they do not deserve",
+      "anchor_end": "not just desiring",
+      "start": null,
+      "end": null,
+      "script": "Majority people that we meet and hire, they desire but they do not deserve. Abhi ki youth ki market mein problem kya ho raha hai? Sab mein desire hai, but deserving bahut kam hai. Agar aap deserving pe zyada dhyaan doge aur desire pe kam doge, toh duniya aapke peeche bhaagegi. So focus in the next three years on becoming deserving and not just desiring."
+    }
+  ]
+}
